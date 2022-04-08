@@ -11,10 +11,12 @@ git clone git@github.com:Druid-ESPRIT/magnum-web.git
 ```
 
 Option 1:
+
 2. Start your HTTP server.
 3. Navigate to where this project is located in your browser at `localhost:<PORT>/`.
 
 Option 2:
+
 2. Start Symfony's built-in HTTP server:
 
 ```bash
