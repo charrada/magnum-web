@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ include('_ellipsis.html.twig') }}
+{{ include('_navbar.html.twig') }}
+
+<!-- ##### Featured: Start ##### -->
+<section class="featured-artist-area section-padding-100 bg-img bg-overlay bg-fixed" style="background-image: url(img/bg-img/bg-4.jpg);">
+  <div class="container">
+    <div class="row align-items-end">
+      <div class="col-12 col-md-5 col-lg-4">
+	<div class="featured-artist-thumb">
+	  <img src="{{ asset('img/podcasters/waveform.jpg') }}" alt="">
+	</div>
+      </div>
+      <div class="col-12 col-md-7 col-lg-8">
+	<div class="featured-artist-content">
+	  <!-- Section Heading -->
+	  <div class="section-heading white text-left mb-30">
+	    <h2>Featured</h2>
+	  </div>
+	  <p>It's the final podcast episode of 2021! Last week we looked back at the past year and reminisced about what some of our favorite moments were as well as some of our favorite gadgets. Continuing in that spirit, Marques and Andrew sit down with each member of the team this week to make a few predictions as to what we are expecting/what we hope to see in 2022. Thanks for sticking with us this year and next year will be even better!</p>
+	  <div class="song-play-area">
+	    <div class="song-name">
+	      <p>Tech We Want to See in 2022!</p>
+	    </div>
+	    <audio preload="auto" controls>
+	      <source src="audio/dummy-audio.mp3">
+	    </audio>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ##### Featured: End ##### -->
+
+<!-- ##### Discover: Start ##### -->
+<section class="oneMusic-buy-now-area has-fluid bg-gray section-padding-100">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+	<div class="section-heading style-2">
+	  <h2>Discover</h2>
+	</div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+      {{ include('home/_podcast_episode.html.twig', { podcaster: "Waveform", episode: "Tech We Want to See in 2022!", image: "img/podcasters/waveform.jpg" }) }}
+
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+	<div class="load-more-btn text-center wow fadeInUp" data-wow-delay="200ms">
+	  <a href="#" class="btn oneMusic-btn">See More<i class="fa fa-angle-double-right"></i></a>
+	</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ##### Discover: End ##### -->
+
+<!-- ##### Contact: Start ##### -->
+<section class="contact-area section-padding-100 bg-img bg-overlay bg-fixed has-bg-img" style="background-image: url(img/bg-img/bg-2.jpg);">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+	<div class="section-heading white wow fadeInUp" data-wow-delay="100ms">
+	  <h2>Get In Touch</h2>
+	</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+	<!-- Contact Form Area -->
+	<div class="contact-form-area">
+	  <form action="#" method="post">
+	    <div class="row">
+	      <div class="col-md-6 col-lg-4">
+		<div class="form-group wow fadeInUp" data-wow-delay="100ms">
+		  <input type="text" class="form-control" id="name" placeholder="Name">
+		</div>
+	      </div>
+	      <div class="col-md-6 col-lg-4">
+		<div class="form-group wow fadeInUp" data-wow-delay="200ms">
+		  <input type="email" class="form-control" id="email" placeholder="E-mail">
+		</div>
+	      </div>
+	      <div class="col-lg-4">
+		<div class="form-group wow fadeInUp" data-wow-delay="300ms">
+		  <input type="text" class="form-control" id="subject" placeholder="Subject">
+		</div>
+	      </div>
+	      <div class="col-12">
+		<div class="form-group wow fadeInUp" data-wow-delay="400ms">
+		  <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+		</div>
+	      </div>
+	      <div class="col-12 text-center wow fadeInUp" data-wow-delay="500ms">
+		<button class="btn oneMusic-btn mt-30" type="submit">Send <i class="fa fa-angle-double-right"></i></button>
+	      </div>
+	    </div>
+	  </form>
+	</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ##### Contact: End ##### -->
+
+{% endblock %}
