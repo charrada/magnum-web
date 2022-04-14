@@ -1,0 +1,44 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+<section class="login-area section-padding-100">
+
+<div>
+    <div class="form-group">
+        {{ form_label(form.titre, "Titre ") }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.titre, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    <div class="form-error">
+        {{ form_errors (form.titre) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.url, "url ") }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.url, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    <div class="form-error">
+        {{ form_errors (form.url) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.content, "content ") }}
+
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.content, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+        <div class="form-error">
+        {{ form_errors (form.content) }}
+    </div>
+
+    <div>
+        <button class="btn btn-success ">{{ button_label|default('Save') }}</button>
+    </div>
+</div>
+<section/>
+{{ form_end(form) }}

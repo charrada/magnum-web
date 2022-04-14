@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {{ include('_ellipsis.html.twig') }}
+{{ include('_navbar.html.twig') }}
     {% block head %}
        <meta charset="UTF-8">
        <meta name="description" content="Magnum, podcasts done right!">
@@ -12,11 +14,14 @@
 
     {% block stylesheets %}
        <link rel="stylesheet" href="{{ asset('style.css') }}">
-    {% endblock %}
+       <link href="{{ asset('css/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+
+       {% endblock %}
   </head>
 
   <body>
-    {% block body %}{% endblock %}
+    {% block body %}
+    {% endblock %}
 
     {% block javascripts %}
        <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>

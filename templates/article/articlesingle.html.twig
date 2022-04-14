@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="login-area section-padding-100">
+
+            <div class="row d-flex">
+                {% for reco in recos %}
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <p>Url:{{ reco.getUrl }}</p>
+
+                        <p>Titre:{{ reco.titre }}</p>
+                        <div>
+                            <p>Containt:{{ reco.getContent }}</p>
+                        </div>
+                    </div>
+                </div>
+                    {{ form_start(form) }}
+                    {{ form_widget(form.message,{'attr':{'placeholder':'Leave Comment','class':'form-control','rows':'5'}}) }}
+                    <button  class="btn btn-primary btn-block">{{ button_label|default('Post') }}</button>
+                    <a href="{{ path('reco_single',{'id': reco.id}) }}"></a>
+                    {{ form_widget(form) }}
+                {{ form_end(form) }}
+
+
+            </div>
+
+            </div>
+        {% for comment in comments %}
+
+        <font style="border:black; border-width:5px; border-style:outset;">
+        <strong>{{ comment.userID.username    }}</strong>   <span class="text-muted">commented
+        </font>
+            <div>
+                        <strong>{{ comment.message }}</strong> At {{ comment.submitDate | date('d/m/y') }} </span>
+                <form method="post" action="{{ path('deletecom', {'id': comment.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                    <button   class="btn btn-danger"> Supprimer </button>
+
+                </form>     
+                <a  class="btn btn-success btn-circle btn-lg" href="{{ path('comment_edit', {'id': comment.getId()}) }}"><i class="fas fa-edit"></i></a>
+            </div>
+            {% endfor %}
+        {% endfor %}
+
+
+        </div>
+
+    </section>
+
+
+{% endblock %}

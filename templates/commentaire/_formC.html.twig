@@ -1,0 +1,38 @@
+
+
+         
+
+  
+    <section class="login-area section-padding-100">
+
+            <div class="row d-flex">
+                                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <p>Url:dd</p>
+
+                        <p>Titre:hhh</p>
+                        <div>
+                            <p>Containt:ff</p>
+                        </div>
+                    </div>
+                </div>
+                    <form name="commentaire" method="post">
+                    {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+                    <textarea id="commentaire_message" name="commentaire[message]" required="required" class="form-control" placeholder="Leave Comment" rows="5"></textarea>
+                    {{ form_widget(f.message, {'attr':{'class':'form-control'}}) }}
+                    {{ form_errors (f.message) }}
+                    <button class="btn btn-primary btn-block">Post</button>
+                    <a href="/magnum-web/public/index.php/article/articletest/5"></a>
+                    <div id="commentaire"><input type="hidden" id="commentaire__token" name="commentaire[_token]" value="b9ffcd9c8555982ae2e7cbc2f0c99.3IQci9HdoL2wfxJd3u9HnYTzX4tXFnfW5_ifh2Q6QpA.lvdf8-Cx7tWAGXMfhogr2dHBOsQfWyilq63Ns0kXDsKy9CzFsI7rhP0qRw"></div>
+                {{ form_end(f) }}
+                </form>
+
+
+            </div>
+
+            
+                
+
+        
+
+    </section>

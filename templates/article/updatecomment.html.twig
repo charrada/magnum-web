@@ -1,0 +1,13 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello add ArticleController!{% endblock %}
+
+{% block body %}
+<h1>Edit comment</h1>
+
+{{ include('article/commentupdateform.html.twig', {'button_label': 'Update'}) }}
+
+<a href="{{ path('front') }}">back to list</a>
+
+{% endblock %}
