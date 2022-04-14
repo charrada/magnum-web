@@ -1,3 +1,21 @@
-index:
+app_home:
     path: /
-    controller: App\Controller\HomeController::home
+    controller: App\Controller\HomeController::index
+
+#  Routes pertaining to the registration functionality
+register_user:
+    path: /register
+    controller: App\Controller\RegisterController::register
+
+#  Routes pertaining to the token module
+generate_token:
+    path: /token/generate
+    controller: App\Controller\TokenController::generate
+
+input_token:
+    path: /token/input/{username}
+    controller: App\Controller\TokenController::input
+
+reset_with_token:
+    path: /token/reset/{username}/{token}
+    controller: App\Controller\TokenController::reset
