@@ -28,10 +28,10 @@ class TokenController extends AbstractController
         $userRepo = $man->getRepository(Users::class);
         $tokenRepo = $man->getRepository(Tokens::class);
 
-        $_user = array_shift($userRepo->findOneBy(['username' => $username]));
+        $_user = $userRepo->findOneBy(['username' => $username]);
         $this->bounceUnauthorized($_user);
 
-        $_token = array_shift($tokenRepo->findOneBy(['user' => $_user, 'token' => $token]));
+        $_token = $tokenRepo->findOneBy(['user' => $_user, 'token' => $token]);
         $this->bounceUnauthorized($_token);
 
         $form = $this->createForm(ResetWithTokenType::class, $_user);
@@ -40,21 +40,19 @@ class TokenController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $_data = $form->getData();
 
-            if (!$user) {
-               throw $this->createNotFoundException('Something went wrong.'); 
-            }
-            
             if ($_data->getPassword() != $_data->getPasswordConfirm()) {
                $errors[] = array('message' => 'The passwords you provided do not match, please try again.');
-               return $this->redirectToRoute('input_token', [ 'errors' => $errors ]);
+               return $this->render('token/reset.html.twig', [ 'errors' => $errors ]);
             }
             
             $hashedPassword = password_hash($_data->getPassword(), PASSWORD_DEFAULT);
-            current($_user)->setPassword($hashedPassword);
+            $_user->setPassword($hashedPassword);
             $man->flush();
+
+            return $this->redirectToRoute('login');
         }
 
-        return $this->redirectToRoute('reset_with_token', [
+        return $this->render('token/reset.html.twig', [
             'username' => $username,
             'token' => $token,
             'form' => $form->createView(),
@@ -80,7 +78,8 @@ class TokenController extends AbstractController
 
           if (!$token) {
              $errors[] = array('message' => 'Not a valid token, please try again.');
-             return $this->redirectToRoute('input_token', [
+             return $this->render('token/input.html.twig', [
+               'username' => $username,
                'form' => $form->createView(),
                'errors' => $errors,
              ]);
@@ -88,7 +87,8 @@ class TokenController extends AbstractController
 
           if ($token->isConsumed()) {
              $errors[] = array('message' => 'Token has already been used before, please generate a new one.');
-             return $this->redirectToRoute('input_token', [
+             return $this->render('token/input.html.twig', [
+               'username' => $username,
                'form' => $form->createView(),
                'errors' => $errors,
              ]);
@@ -104,7 +104,8 @@ class TokenController extends AbstractController
           ]);
         }
 
-        return $this->redirectToRoute('input_token', [
+        return $this->render('token/input.html.twig', [
+            'username' => $username,
             'form' => $form->createView(),
             'errors' => array(), 
         ]);

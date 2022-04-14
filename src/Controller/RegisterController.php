@@ -28,7 +28,7 @@ class RegisterController extends AbstractController
 
             if ($repo->findMatchingUsers($user)) {
                $errors[] = array('message' => 'A user with the same username/email exists within our records');
-               return $this->render('register/index.html.twig', [
+               return $this->redirectToRoute('app_home', [
                  'form' => $form->createView(),
                  'errors' => $errors,
                ]);
