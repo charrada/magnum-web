@@ -1,0 +1,13 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{app.user.username}}'s history {% endblock %}
+
+{% block content %}
+
+  {% for h in history %}
+    {{ include ('user/tabs/history/_history_card.html.twig', { 'history': history }) }}
+  {% else %}
+    <p>You have no history.</p>
+  {% endfor %}
+
+{% endblock %}

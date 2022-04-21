@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * History
@@ -40,7 +41,7 @@ class History
      *
      * @ORM\Column(name="time", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $time = 'CURRENT_TIMESTAMP';
+    private $time = "CURRENT_TIMESTAMP";
 
     /**
      * @var \Users
@@ -50,7 +51,60 @@ class History
      *   @ORM\JoinColumn(name="userID", referencedColumnName="ID")
      * })
      */
-    private $userid;
+    private $user;
 
+    public function getID(): ?int
+    {
+        return $this->id;
+    }
 
+    public function setID(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getActivity(): ?string
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(string $activity): self
+    {
+        $this->activity = $activity;
+        return $this;
+    }
+
+    public function getTime(): DateTime
+    {
+        return $this->time;
+    }
+
+    public function setTime(DateTime $time): self
+    {
+        $this->time = $time;
+        return $this;
+    }
+
+    public function getUser(): ?int
+    {
+        return $this->user;
+    }
+    
+    public function setUser(Users $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
 }

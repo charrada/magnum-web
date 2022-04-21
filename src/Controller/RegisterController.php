@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegisterController extends AbstractController
 {
@@ -24,27 +25,41 @@ class RegisterController extends AbstractController
             $user = $form->getData();
             $man = $this->getDoctrine()->getManager();
             $repo = $man->getRepository(Users::class);
-            $errors = array();
+            $errors = [];
 
             if ($repo->findMatchingUsers($user)) {
-               $errors[] = array('message' => 'A user with the same username/email exists within our records');
-               return $this->redirectToRoute('app_home', [
-                 'form' => $form->createView(),
-                 'errors' => $errors,
-               ]);
+                $errors[] = [
+                    "message" =>
+                        "A user with the same username/email exists within our records",
+                ];
+                return $this->redirectToRoute("app_home", [
+                    "form" => $form->createView(),
+                    "errors" => $errors,
+                ]);
             }
 
-            $avatarFile = $form->get('avatar')->getData();
+            $avatarFile = $form->get("avatar")->getData();
 
             if ($avatarFile) {
-                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$avatarFile->guessExtension();
+                $originalFilename = pathinfo(
+                    $avatarFile->getClientOriginalName(),
+                    PATHINFO_FILENAME
+                );
+                $safeFilename = transliterator_transliterate(
+                    "Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()",
+                    $originalFilename
+                );
+                $newFilename =
+                    $safeFilename .
+                    "-" .
+                    uniqid() .
+                    "." .
+                    $avatarFile->guessExtension();
 
                 try {
                     // Move the file to the directory where avatars are stored
                     $avatarFile->move(
-                        $this->getParameter('avatar_directory'),
+                        $this->getParameter("avatar_directory"),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -54,18 +69,21 @@ class RegisterController extends AbstractController
                 $user->setAvatar($newFilename);
             }
 
-            $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+            $hashedPassword = password_hash(
+                $user->getPassword(),
+                PASSWORD_DEFAULT
+            );
             $user->setPassword($hashedPassword);
-            $user->setStatus('Active');
+            $user->setStatus("Active");
             $man->persist($user);
             $man->flush();
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute("app_login");
         }
 
-        return $this->render('register/index.html.twig', [
-            'form' => $form->createView(),
-            'errors' => array(), 
+        return $this->render("register/index.html.twig", [
+            "form" => $form->createView(),
+            "errors" => [],
         ]);
     }
 }

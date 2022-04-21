@@ -5,16 +5,22 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert; 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Users
  *
  * @ORM\Table(name="Users")
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
+ * @InheritanceType("JOINED")
+ * @DiscriminatorMap({"users"="Users", "administrators"="Administrators", "podcasters"="Podcasters"})
  * @UniqueEntity("email", "username")
  */
-class Users
+class Users implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -60,54 +66,142 @@ class Users
      */
     private $status;
 
+    /* Used in security details form */
+    private $newPassword;
+    /* Used in security details and register forms */
     private $passwordConfirm;
 
-    public function getId(): ?int { return $this->id; }
-
-    public function getUsername(): ?string { return $this->username; }
-
-    public function getEmail(): ?string { return $this->email; }
-
-    public function getPassword(): ?string { return $this->password; }
-
-    public function getPasswordConfirm(): ?string { return $this->passwordConfirm; }
-
-    public function getAvatar(): ?string { return $this->avatar; }
-
-    public function getStatus(): ?string { return $this->status; }
-
-    public function setId(int $id): self {
-       $this->id = $id;
-       return $this;
+    public function getRoles()
+    {
+        return array('ROLE_USERS');
     }
 
-    public function setUsername(string $username): self {
-       $this->username = $username;
-       return $this;
+    public function eraseCredentials()
+    {
     }
 
-    public function setEmail(string $email): self {
-       $this->email = $email;
-       return $this;
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
     }
 
-    public function setPassword(string $password): self {
-       $this->password = $password;
-       return $this;
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->avatar,
+            $this->status,
+            $this->username,
+            $this->password
+        ));
     }
 
-    public function setPasswordConfirm(string $passwordConfirm): self {
-       $this->passwordConfirm = $passwordConfirm;
-       return $this;
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->avatar,
+            $this->status,
+            $this->username,
+            $this->password
+        ) = unserialize($serialized, array('allowed_classes' => false));
     }
 
-    public function setAvatar(string $avatar): self {
-       $this->avatar = $avatar;
-       return $this;
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
-    public function setStatus(string $status): self {
-       $this->status = $status;
-       return $this;
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function getPasswordConfirm(): ?string
+    {
+        return $this->passwordConfirm;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function setPassword(string $pw): self
+    {
+        $this->password = $pw;
+        return $this;
+    }
+
+    public function setPasswordConfirm(string $pw): self
+    {
+        $this->passwordConfirm = $pw;
+        return $this;
+    }
+
+    public function setNewPassword(string $pw): self
+    {
+        $this->newPassword = $pw;
+        return $this;
+    }
+
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
+        return $this;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        return $this;
     }
 }

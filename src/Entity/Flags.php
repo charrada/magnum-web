@@ -40,7 +40,7 @@ class Flags
      *
      * @ORM\Column(name="time", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $time = 'CURRENT_TIMESTAMP';
+    private $time = "CURRENT_TIMESTAMP";
 
     /**
      * @var \Users
@@ -61,6 +61,4 @@ class Flags
      * })
      */
     private $flaggerid;
-
-
 }

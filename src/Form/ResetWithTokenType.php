@@ -13,28 +13,36 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class ResetWithTokenType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
-            ->add('password', PasswordType::class, [
-               'required' => true,
-               'label' => false,
-               'attr' => ['class' => 'form-control', 'placeholder' => 'Password'],
-             ])
-            ->add('password_confirm', PasswordType::class, [
-               'required' => true,
-               'label' => false,
-               'attr' => ['class' => 'form-control', 'placeholder' => 'Confirm password'],
-             ])
-            ->add('confirm', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+            ->add("password", PasswordType::class, [
+                "required" => true,
+                "label" => false,
+                "attr" => [
+                    "class" => "form-control",
+                    "placeholder" => "Password",
+                ],
+            ])
+            ->add("password_confirm", PasswordType::class, [
+                "required" => true,
+                "label" => false,
+                "attr" => [
+                    "class" => "form-control",
+                    "placeholder" => "Confirm password",
+                ],
+            ])
+            ->add("confirm", SubmitType::class, [
+                "attr" => ["class" => "btn btn-primary"],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Users::class,
+            "data_class" => Users::class,
         ]);
     }
 }

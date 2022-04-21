@@ -2,9 +2,17 @@ home:
     path: /
     controller: App\Controller\HomeController::index
 
-login:
-    path: /login
-    controller: App\Controller\LoginController::index
+user_profile:
+    path: /profile
+    controller: App\Controller\UserController::getProfile
+
+user_history:
+    path: /history
+    controller: App\Controller\UserController::getHistory
+
+user_security:
+    path: /security
+    controller: App\Controller\UserController::resetSecurityDetails
 
 register_user:
     path: /register

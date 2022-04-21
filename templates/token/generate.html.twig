@@ -5,21 +5,19 @@
 
     {{ include('_navbar.html.twig') }}
 
-    <section class="login-area section-padding-100">
+    <section class="section-padding-100">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
                     <div class="login-content">
                         <h3>Generate A Token</h3>
-                        {% if errors|length > 0 %}
-                          {% for err in errors %}
-                            <div class="alert alert-danger text-left" role="alert">
-                              <h4 class="alert-heading">Oops!</h4>
-                              <hr>
-                              {{ err.message }}
-                            </div>
-                          {% endfor %}
-                        {% endif %}
+			{% for label, messages in app.flashes(['danger', 'success']) %}
+			{% for message in messages %}
+			<div class="alert alert-{{ label }}">
+			  {{ message }}
+			</div>
+			{% endfor %}
+			{% endfor %}
 
                         {{ form_start(form) }}
                         {{ form_end(form) }}
@@ -27,7 +25,6 @@
                 </div>
             </div>
         </div>
-
     </section>
 
 {% endblock %}

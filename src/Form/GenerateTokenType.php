@@ -13,23 +13,28 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class GenerateTokenType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
-            ->add('username', TextType::class, [
-               'required' => true,
-               'label' => false,
-               'attr' => ['class' => 'form-control', 'placeholder' => 'Username'],
-             ])
-            ->add('generate', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+            ->add("username", TextType::class, [
+                "required" => true,
+                "label" => false,
+                "attr" => [
+                    "class" => "form-control",
+                    "placeholder" => "Username",
+                ],
+            ])
+            ->add("generate", SubmitType::class, [
+                "attr" => ["class" => "btn btn-primary"],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Users::class,
+            "data_class" => Users::class,
         ]);
     }
 }

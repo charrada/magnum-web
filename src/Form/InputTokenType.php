@@ -12,23 +12,25 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class InputTokenType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $builder
-            ->add('token', TextType::class, [
-               'required' => true,
-               'label' => false,
-               'attr' => ['class' => 'form-control', 'placeholder' => 'Token'],
-             ])
-            ->add('send', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+            ->add("token", TextType::class, [
+                "required" => true,
+                "label" => false,
+                "attr" => ["class" => "form-control", "placeholder" => "Token"],
+            ])
+            ->add("send", SubmitType::class, [
+                "attr" => ["class" => "btn btn-primary"],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Tokens::class,
+            "data_class" => Tokens::class,
         ]);
     }
 }
