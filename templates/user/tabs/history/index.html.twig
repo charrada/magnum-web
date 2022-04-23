@@ -1,0 +1,29 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{app.user.username}}'s history {% endblock %}
+
+{% block content %}
+
+    {% for label, messages in app.flashes(['danger', 'success']) %}
+	{% for message in messages %}
+	    <div class="alert alert-{{ label }}">
+		{{ message }}
+	    </div>
+	{% endfor %}
+    {% endfor %}
+
+  {# Display history manipulation form #}
+  {{ form(form)}}
+
+  {# Display user history #}
+  {% for h in history %}
+    {{ include ('user/tabs/history/_history_card.html.twig', { 'history': h }) }}
+  {% else %}
+    <div class="card mx-auto mt-2" style="width: 18rem;">
+	<div class="card-body">
+	    <p class="card-text">You have no history.</p>
+	</div>
+    </div>
+  {% endfor %}
+
+{% endblock %}
