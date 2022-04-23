@@ -1,6 +1,3 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="{{ url('home') }}">Magnum</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +10,7 @@
       </li>
       {% if app.user %}
       <li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	<a class="nav-link dropdown-toggle" href="{{ url('user_profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	  {{ app.user.username }}
 	</a>
 	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -29,5 +26,3 @@
     </ul>
   </div>
 </nav>
-
-{% endblock %}

@@ -2,17 +2,17 @@ home:
     path: /
     controller: App\Controller\HomeController::index
 
+user_security:
+    path: /security
+    controller: App\Controller\UserController::getSecurityTab
+
 user_profile:
     path: /profile
-    controller: App\Controller\UserController::getProfile
+    controller: App\Controller\UserController::getProfileTab
 
 user_history:
     path: /history
-    controller: App\Controller\UserController::getHistory
-
-user_security:
-    path: /security
-    controller: App\Controller\UserController::resetSecurityDetails
+    controller: App\Controller\HistoryController::getHistoryTab
 
 register_user:
     path: /register
