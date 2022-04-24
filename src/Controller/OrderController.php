@@ -9,8 +9,12 @@ use App\Entity\Order;
 use App\Entity\Offer; 
 use App\Entity\Users;
 use App\Entity\Subscription;
+use App\Entity\Coupon;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\String\ByteString;
+use Symfony\Component\Mailer\MailerInterface;
 
 
 
@@ -48,12 +52,12 @@ class OrderController extends AbstractController
     /**
      *@Route("/placeorder/{id}",name="placeorder")
      */
-    public function placeOrder(Request $request,int $id){
+    public function placeOrder(Request $request,int $id,MailerInterface $mailer){
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $offers=$repository->find($id);
 
         $repository=$this->getDoctrine()->getRepository(Users::class);
-        $id = 5;
+        $id = 1;
         $user=$repository->find($id);
 
         $order = new Order();      
@@ -91,13 +95,52 @@ class OrderController extends AbstractController
        
           $em->persist($subscription);  
           $em ->flush();
-      
+         
+        $repository=$this->getDoctrine()->getRepository(Coupon::class);
+        $inputCoupon =$request->request->get('code');
+        if ($inputCoupon != ""){
+        $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($taggedCoupon->setUsed("true"));
+        $em ->flush();}
+
+
+        $email = (new TemplatedEmail())
+        ->from('devel.magnum@gmail.com')
+        ->to($user->getEmail())
+        ->subject('About your order !')
+        ->htmlTemplate('email/order.html.twig')
+        ->context([
+          'order' => $order
+        ]);
+
+      //  $mailer->send($email);
 
      
          return new JsonResponse($order->getId());
    //  return $this->render('payment/index.html.twig',["order"=>$order]);
       
         
+    }
+    /**
+     *@Route("/redeem-coupon",name="redeem")
+     */
+    public function redeemCoupon(Request $request){
+
+        $repository=$this->getDoctrine()->getRepository(Coupon::class);
+        $inputCoupon =$request->request->get('code');
+        $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
+        $repository=$this->getDoctrine()->getRepository(Users::class);
+        $id = 1;
+        $user=$repository->find($id);
+
+        if (($taggedCoupon->getUsed() == "false") && ($user->getId() == $taggedCoupon->getUserId())){
+           
+            return new JsonResponse($taggedCoupon->getReduction()); 
+
+
+        }
+        return new JsonResponse(0); 
     }
 
 }

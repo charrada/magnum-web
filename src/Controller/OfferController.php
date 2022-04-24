@@ -57,7 +57,7 @@ class OfferController extends AbstractController
         $offer->setUser($user);
         $form = $this->createForm(OfferType::class,$offer);
         $form->handleRequest($request);
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
             $file = $form->get('image')->getData();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
             $file->move(
