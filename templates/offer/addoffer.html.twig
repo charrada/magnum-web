@@ -13,25 +13,25 @@
     <section class="events-area section-padding-100">
         <div class="container">
          <div class="card-body">
-                          {{form_start(form, {attr:{novalidate:'novalidate'}})}}
+                          {{form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
 
                         <form>
                             <div class="form-group">
                                 <label class="form-label">Description</label>
                                 {{ form_widget(form.description , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Write somthing about your offer here !'}} ) }}
-                                {{ form_errors(form.description)}}
+                                {{ form_errors(form.description, {'attr':{'class':'text-danger'}} )}}
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Price</label>
                                 {{ form_widget(form.price , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Set a price !'}} ) }}
-                                {{ form_errors(form.price)}}
+                                {{ form_errors(form.price, {'attr':{'class':'text-danger'}} )}}
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Upload Image</label>
                                 {{ form_widget(form.image, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Upload Image'}} ) }}
-                                {{ form_errors(form.image) }}
+                                {{ form_errors(form.image, {'attr':{'class':'text-danger'}}) }}
                             </div>
                            
 

@@ -7,6 +7,7 @@ parameters:
     avatar_directory: '%kernel.project_dir%/public/uploads/avatars'
     img_directory: '%kernel.project_dir%/public/img/ofs-img'
 
+
 services:
 
     # default configuration for services in *this* file
