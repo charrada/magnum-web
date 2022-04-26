@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping\InheritanceType;
@@ -21,6 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("email", "username")
  */
 class Users implements UserInterface, \Serializable
+
 {
     /**
      * @var int
@@ -34,6 +36,7 @@ class Users implements UserInterface, \Serializable
     /**
      * @var string
      *
+
      * @ORM\Column(name="username", type="string", length=40, unique=true, nullable=false)
      */
     private $username;
@@ -41,6 +44,7 @@ class Users implements UserInterface, \Serializable
     /**
      * @var string
      *
+
      * @ORM\Column(name="email", type="string", length=80, unique=true, nullable=false)
      */
     private $email;

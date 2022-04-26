@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ include('_ellipsis.html.twig') }}
+{{ include('_navbar.html.twig') }}
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
+        <div class="bradcumbContent">
+            <p>Offer Manager dashboard</p>
+        </div>
+    </section>
+ 
+ <!-- ##### Events Area Start ##### -->
+    <section class="events-area section-padding-100">
+
+                </div>
+           
+             <form action="/checkout" method="POST">
+        <button type="submit" class="btn btn-primary btn-lg">Checkout</button>
+    </form>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- ##### Events Area End ##### -->
+
+
+
+{% endblock %}
+
+   
+
