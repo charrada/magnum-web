@@ -20,14 +20,18 @@ class GenerateTokenType extends AbstractType
         $builder
             ->add("username", TextType::class, [
                 "required" => true,
-                "label" => false,
+                "label" => "What's your username?",
+                "label_attr" => [
+                    "class" => "col-sm-2 col-form-label"
+                ],
                 "attr" => [
+                    "id" => "username",
                     "class" => "form-control",
-                    "placeholder" => "Username",
+                    "placeholder" => "Username"
                 ],
             ])
             ->add("generate", SubmitType::class, [
-                "attr" => ["class" => "btn btn-primary"],
+                "attr" => ["class" => "btn btn-primary mb-2"],
             ]);
     }
 
@@ -35,6 +39,9 @@ class GenerateTokenType extends AbstractType
     {
         $resolver->setDefaults([
             "data_class" => Users::class,
+            "attr" => [
+                "class" => "form-inline",
+              ]
         ]);
     }
 }
