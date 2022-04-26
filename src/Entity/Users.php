@@ -36,7 +36,6 @@ class Users implements UserInterface, \Serializable
     /**
      * @var string
      *
-
      * @ORM\Column(name="username", type="string", length=40, unique=true, nullable=false)
      */
     private $username;
