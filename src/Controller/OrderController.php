@@ -98,11 +98,16 @@ class OrderController extends AbstractController
          
         $repository=$this->getDoctrine()->getRepository(Coupon::class);
         $inputCoupon =$request->request->get('code');
+        try
+         {
         if ($inputCoupon != ""){
         $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
         $em = $this->getDoctrine()->getManager();
         $em->persist($taggedCoupon->setUsed("true"));
         $em ->flush();}
+        } catch (\Throwable $t) {
+            return new JsonResponse($order->getId());
+        }
 
 
         $email = (new TemplatedEmail())
@@ -133,13 +138,18 @@ class OrderController extends AbstractController
         $repository=$this->getDoctrine()->getRepository(Users::class);
         $id = 1;
         $user=$repository->find($id);
-
+        try
+        {
         if (($taggedCoupon->getUsed() == "false") && ($user->getId() == $taggedCoupon->getUserId())){
            
             return new JsonResponse($taggedCoupon->getReduction()); 
 
 
         }
+       } catch (\Throwable $t) {
+        return new JsonResponse(0);
+       }
+  
         return new JsonResponse(0); 
     }
 
