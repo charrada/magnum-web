@@ -22,7 +22,7 @@ class HistoryController extends AbstractController
     }
 
     public function getRandomSuccessString(): string {
-        $success_messages = array('Woohoo!', 'Awesome!', 'Nice!');
+        $success_messages = array('Woohoo! ', 'Nice! ');
         $index = array_rand($success_messages, 1);
         $msg = $success_messages[$index];
         return $msg;
@@ -40,13 +40,24 @@ class HistoryController extends AbstractController
 
         return $history;
     }
+    
+    public function fetchHistoryByType(string $activity) {
+        $user = new Users();
+        $man = $this->getDoctrine()->getManager();
+        $user_repo = $man->getRepository(Users::class);
+        $hist_repo = $man->getRepository(History::class);
+        $curr_user = $this->security->getUser();
 
-    public function clearHistory(): void {
-        $man  = $this->getDoctrine()->getManager();
-        $repo = $man->getRepository(History::class);
+        $user = $user_repo->findOneBy(['username' => $curr_user->getUsername()]);
+        $history = $hist_repo->findBy(['user' => $curr_user, 'activity' => $activity]);
+
+        return $history;
+    }
+
+    public function eraseHistory(): void {
         $user = $this->security->getUser();
-        $repo->clearHistory($user);
-        return;
+        $man  = $this->getDoctrine()->getManager();
+        $man->getRepository(History::class)->erase($user);
     }
 
     public function addToHistory(
@@ -70,23 +81,31 @@ class HistoryController extends AbstractController
     }
 
     public function getHistoryTab(Request $request): Response {
+        $history = $this->fetchHistory();
         $form = $this->createForm(HistoryType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->getClickedButton() && 'clear' === $form->getClickedButton()->getName()) {
-                $this->clearHistory();
+            $button = $form->getClickedButton()->getName();
+            if ($form->getClickedButton() && $button === 'clear') {
+                $this->eraseHistory();
 
                 $this->addFlash(
                     'success',
-                    $this->getRandomSuccessString() . 'You\'ve cleared all your history'
+                    $this->getRandomSuccessString() . 'You cleared your history.'
                 );
+            } else if ($form->getClickedButton() && $button == 'filter') {
+                $_hist = $form->getData();
+
+                if ($_hist->getActivity() != 'All') {
+                    $history = $this->fetchHistoryByType($_hist->getActivity());
+                }
             }
         }
 
         return $this->render('user/tabs/history/index.html.twig', [
             'form' => $form->createView(),
-            'history' => $this->getHistory(),
+            'history' => $history,
         ]);
     }
 }
