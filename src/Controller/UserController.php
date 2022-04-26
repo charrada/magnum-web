@@ -22,7 +22,16 @@ class UserController extends AbstractController
     }
 
     public function getProfileTab(): Response {
-        return $this->render('user/tabs/profile/index.html.twig', []);
+        $user = $this->security->getUser();
+
+        /* Set a placeholder avatar for users that don't have one. */
+        if (is_null($user->getAvatar())) {
+            $user->setAvatar('placeholder-avatar.svg');
+        }
+
+        return $this->render('user/tabs/profile/index.html.twig',
+               [ 'user' => $user ]
+        );
     }
 
     public function getRandomSuccessString(): string {

@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 
+
 /**
  * History
  *
  * @ORM\Table(name="History", indexes={@ORM\Index(name="fk_userID_hist", columns={"userID"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\HistoryRepository")
  */
 class History
 {

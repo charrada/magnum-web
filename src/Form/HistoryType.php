@@ -18,13 +18,14 @@ class HistoryType extends AbstractType
     ): void {
         $builder
             ->add('activity', ChoiceType::class, [
+                'label' => 'Activity',
                 'choices' => [
-                    'Type' => [
-                        'Security' => 'Security',
-                        'Billing' => 'Billing',
-                        'Profile' => 'Profile',
-                    ],
+                    'All' => 'All',
+                    'Security' => 'Security',
+                    'Billing' => 'Billing',
+                    'Profile' => 'Profile',
                 ],
+                'attr' => [ "class" => "form-control" ],
             ])
             ->add("clear", SubmitType::class, [
                 "attr" => ["class" => "btn btn-danger"],

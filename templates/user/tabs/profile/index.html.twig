@@ -4,9 +4,9 @@
 {% block content %}
 <h1>Welcome back!</h1>
 <div class="container-sm">
-<img class="user-avatar" src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}">
-<p class="user-username">Username: @{{app.user.username}}</p>
-<p class="user-email">Email: {{app.user.email}}</p>
-<a href="{{ url('app_logout') }}">Log me out.</a>
+<img class="user-avatar" src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+<p class="user-username">Username: @{{user.username}}</p>
+<p class="user-email">Email: {{user.email}}</p>
+<a href="{{ url('app_logout') }}">Log out.</a>
 </div>
 {% endblock %}

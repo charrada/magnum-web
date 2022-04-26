@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use App\Entity\History;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -9,19 +10,17 @@ class HistoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Product::class);
+        parent::__construct($registry, History::class);
     }
 
-    public function clearHistory(User $user)
+    public function erase(Users $user)
     {
-        $entityManager = $this->getEntityManager();
+        $man = $this->getEntityManager();
 
-        $qb = $em->createQueryBuilder();
-        $query = $qb->delete('History')
-                    ->where('history.userID = :userID')
-                    ->setParameter('userID', $user->getID())
-                    ->getQuery();
-
-        $query->execute();
+        $qb = $man->createQueryBuilder();
+        $qb->delete('App\Entity\History', 'h')
+           ->where('h.user = :user')
+           ->setParameter('user', $user)
+           ->getQuery()->execute();
     }
 }
