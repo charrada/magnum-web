@@ -32,6 +32,10 @@ class GenerateTokenType extends AbstractType
             ])
             ->add("generate", SubmitType::class, [
                 "attr" => ["class" => "btn btn-primary mb-2"],
+            ])
+            ->add("skip", SubmitType::class, [
+                "label" => "I already have a token",
+                "attr" => ["class" => "btn btn-link mb-2"],
             ]);
     }
 

@@ -18,7 +18,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="Users")
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  * @InheritanceType("JOINED")
- * @DiscriminatorMap({"users"="Users", "administrators"="Administrators", "podcasters"="Podcasters"})
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({
+ *      "users" = "App\Entity\Users",
+ *      "administrators" = "App\Entity\Administrators",
+ *      "podcasters" = "App\Entity\Podcasters"
+ * })
  * @UniqueEntity("email", "username")
  */
 class Users implements UserInterface, \Serializable
@@ -71,54 +76,6 @@ class Users implements UserInterface, \Serializable
 
     /* Used in security details form */
     private $newPassword;
-    /* Used in security details and register forms */
-    private $passwordConfirm;
-
-    public function getRoles()
-    {
-        return array('ROLE_USERS');
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->email,
-            $this->avatar,
-            $this->status,
-            $this->username,
-            $this->password
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->email,
-            $this->avatar,
-            $this->status,
-            $this->username,
-            $this->password
-        ) = unserialize($serialized, array('allowed_classes' => false));
-    }
 
     public function getId(): ?int
     {
@@ -138,11 +95,6 @@ class Users implements UserInterface, \Serializable
     public function getPassword(): ?string
     {
         return $this->password;
-    }
-
-    public function getPasswordConfirm(): ?string
-    {
-        return $this->passwordConfirm;
     }
 
     public function getNewPassword(): ?string
@@ -184,12 +136,6 @@ class Users implements UserInterface, \Serializable
         return $this;
     }
 
-    public function setPasswordConfirm(string $pw): self
-    {
-        $this->passwordConfirm = $pw;
-        return $this;
-    }
-
     public function setNewPassword(string $pw): self
     {
         $this->newPassword = $pw;
@@ -206,5 +152,49 @@ class Users implements UserInterface, \Serializable
     {
         $this->status = $status;
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USERS');
+    }
+
+    public function eraseCredentials() {}
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->avatar,
+            $this->status,
+            $this->username,
+            $this->password
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->avatar,
+            $this->status,
+            $this->username,
+            $this->password
+        ) = unserialize($serialized, array('allowed_classes' => false));
     }
 }

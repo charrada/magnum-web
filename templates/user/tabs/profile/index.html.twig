@@ -1,12 +1,31 @@
 {% extends 'user/base.html.twig' %}
+
 {% block title %} {{app.user.username}}'s profile {% endblock %}
 
 {% block content %}
-<h1>Welcome back!</h1>
-<div class="container-sm">
-<img class="user-avatar" src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
-<p class="user-username">Username: @{{user.username}}</p>
-<p class="user-email">Email: {{user.email}}</p>
-<a href="{{ url('app_logout') }}">Log out.</a>
-</div>
+  <div class="container">
+    <h1>My profile</h1>
+    <div class="row">
+      <div class="col align-self-start">
+	<img class="user-avatar" src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col align-self-center">
+	<p>Username: <b>{{user.username}}#{{ user.id}}</b></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col align-self-center">
+	<p>Email: <b>{{user.email}}</b></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col align-self-center">
+	<a href="{{ url('app_logout') }}">Log out.</a>
+      </div>
+    </div>
+  </div>
+
+  </div>
 {% endblock %}

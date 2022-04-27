@@ -48,7 +48,7 @@ class Podcasters extends Users
 
     public function getId(): ?int
     {
-        return $this->id;
+        return parent::getID();
     }
 
     public function getLastName(): ?string

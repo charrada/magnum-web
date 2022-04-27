@@ -3,22 +3,26 @@
 {% block title %} {{app.user.username}}'s history {% endblock %}
 
 {% block content %}
-
-    {% for label, messages in app.flashes(['danger', 'success']) %}
-	{% for message in messages %}
-	    <div class="alert alert-{{ label }}">
-		{{ message }}
-	    </div>
-	{% endfor %}
-    {% endfor %}
+<div class="container">
+  <h1>My history</h1>
+  {# Notifications #}
+  <div class="row justify-content-center">
+    <div class="mt-4 col-12 col-lg-8">
+      {% for label, messages in app.flashes(['danger', 'warning', 'success']) %}
+      {% for message in messages %}
+      <div class="alert alert-{{ label }}">
+	{{ message }}
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
 
   {# History manipulation form #}
   {{ form_start(form)}}
 
-  <div class="form-group">
   {{ form_label(form.activity)}}
   {{ form_widget(form.activity)}}
-  </div>
 
   {{ form_widget(form.clear)}}
   {{ form_widget(form.filter)}}
@@ -27,9 +31,7 @@
 
   {# Display user history #}
   {% for h in history %}
-    {{ include ('user/tabs/history/_history_card.html.twig', { 'history': h }) }}
-  {% else %}
-    <p class="text-center font-weight-bold" style="font-size: 20px;">You have no history.</p>
+  {{ include ('user/tabs/history/_history_card.html.twig', { 'history': h }) }}
   {% endfor %}
-
-{% endblock %}
+</div>
+  {% endblock %}
