@@ -8,7 +8,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
-
 class UsersRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

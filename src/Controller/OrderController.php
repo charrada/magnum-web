@@ -10,16 +10,23 @@ use App\Entity\Offer;
 use App\Entity\Users;
 use App\Entity\Subscription;
 use App\Entity\Coupon;
+use App\Repository\UsersRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\Mailer\MailerInterface;
-
+use Symfony\Component\Security\Core\Security;
 
 
 class OrderController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
     /**
      * @Route("/order", name="app_order")
      */
@@ -37,34 +44,24 @@ class OrderController extends AbstractController
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $offers=$repository->find($id);
-
-        $repository=$this->getDoctrine()->getRepository(Users::class);
-        $id = 5;
-        $user=$repository->find($id);
-
         return $this->render('order/chooseplan.html.twig',["offers"=>$offers]);
       
-    
-     
- 
     }
 
     /**
      *@Route("/placeorder/{id}",name="placeorder")
      */
-    public function placeOrder(Request $request,int $id,MailerInterface $mailer){
+    public function placeOrder(Request $request,int $id,MailerInterface $mailer,UsersRepository $userRepo){
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $offers=$repository->find($id);
 
-        $repository=$this->getDoctrine()->getRepository(Users::class);
-        $id = 1;
-        $user=$repository->find($id);
-
+        $curr_user = $this->security->getUser();  
+        $user=$userRepo->findOneBy(['username' => $curr_user->getUsername()]);
         $order = new Order();      
         $date = date('Y-m-d H:i:s:v');
         $order->setOrderdate($date);
         $order->setStatus("Pending");
-        $order->setUser($user);
+        $order->setUser($curr_user);
         $order->setOffer($offers);
         $plan =$request->request->get('plan');
         $total =$request->request->get('total');
@@ -81,7 +78,7 @@ class OrderController extends AbstractController
 
            $subscription = new Subscription();
            $subscription->setOrder($lastOrder);
-           $subscription->setUserId($id);
+           $subscription->setUserId($user->getId());
            
            $subcreated = new \DateTime('NOW');
            $subscription->setStartDate(new \DateTime('NOW'));
@@ -119,7 +116,7 @@ class OrderController extends AbstractController
           'order' => $order
         ]);
 
-      //  $mailer->send($email);
+          $mailer->send($email);
 
      
          return new JsonResponse($order->getId());

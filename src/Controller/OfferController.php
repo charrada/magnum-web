@@ -19,7 +19,7 @@ class OfferController extends AbstractController
     public function index(): Response
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findAll();
+        $offers=$repository->findBy(['user' => $this->getUser()]);
         return $this->render('offer/offermanager.html.twig', ["offers"=>$offers]
         );
     }
@@ -29,7 +29,7 @@ class OfferController extends AbstractController
     public function offerList(): Response
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findAll();
+        $offers=$repository->findBy(['user' => $this->getUser()]);
         return $this->render('offer/offerlist.html.twig', ["offers"=>$offers]
         );
     }
@@ -50,11 +50,8 @@ class OfferController extends AbstractController
      *@Route("/addoffer",name="addoffer")
      */
     public function addOffer(Request $request){
-        $repository=$this->getDoctrine()->getRepository(Users::class);
-        $id = 5;
-        $user=$repository->find($id);
         $offer = new Offer();
-        $offer->setUser($user);
+        $offer->setUser($this->getUser());
         $form = $this->createForm(OfferType::class,$offer);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){

@@ -41,9 +41,6 @@ class PaymentController extends AbstractController
             $subs=$repository->findOneBy(array('order' => $orders));
             $total=$orders->getTotal();
             $plan =$orders->getPlan();
-            $repository=$this->getDoctrine()->getRepository(Users::class);
-            $id = 1;
-            $user=$repository->find($id);
             $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items'           => [
@@ -64,16 +61,6 @@ class PaymentController extends AbstractController
            
         ]);
     
-        $status = $session->retrieve($session->id,
-            []
-          );
-
-           
-
-              if(str_contains($session->url,'success-url')){
-       
-
-            }
          
 
         return $this->redirect($session->url, 303);
