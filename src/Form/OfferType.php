@@ -23,7 +23,8 @@ class OfferType extends AbstractType
         $builder
             ->add('description',TextareaType::class)
             ->add('price',NumberType::class)                            
-            ->add('image', FileType::class, array('label' => 'image','data_class' => null))                  
+            ->add('image', FileType::class, array('label' => 'image','data_class' => null)) 
+                     
  
             ;
     }

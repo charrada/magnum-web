@@ -57,6 +57,7 @@ class Offer
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="ID")
      * })
+     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $user;
 

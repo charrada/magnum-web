@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     avatar_directory: '%kernel.project_dir%/public/uploads/avatars'
+    img_directory: '%kernel.project_dir%/public/img/ofs-img'
+
 
 services:
 

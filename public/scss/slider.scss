@@ -111,3 +111,29 @@
     }
     
 }
+#buttonWithText {
+    overflow: hidden;
+    width: 200px;
+  }
+  
+  #switcher {
+    display: flex;
+    width: 200%;
+    transition: 0.5s;
+  }
+  
+  #switcher.expanded {
+    transform: translateX(-50%);
+  }
+  
+  #toggle {
+    flex: 0 0 50%;
+  }
+  
+  #input {
+    flex: auto;
+  }
+  
+  #ok {
+    flex: none;
+  }

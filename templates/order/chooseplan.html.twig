@@ -9,7 +9,7 @@
         
   
 
-  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb3.jpg);">
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
         <div class="bradcumbContent">
             <p>Choose your plan</p>
         </div>
@@ -36,6 +36,15 @@
     <div class="right">
       <span class="price">$<span id="price">{{offers.price}}</span></span> / <span id="period">month</span>
     </div>
+    <div>
+ <form id='buttonWithText' onSubmit={this.onSubmit}>
+  <div id='switcher' class='collapsed'>
+    <input type='button' id='toggle' value='Redeem coupn'>
+    <input type='text' id='input' tabindex='-1' placeholder='Paste here' size=10>
+     
+  </div>
+</form>
+</div>
     <div class="center">
       <span>Total : $</span><span id ="total" name ="total"></span>
     </div>
@@ -54,11 +63,12 @@
 function sendData(){
   var plan = document.getElementById("plan").innerText;
   var total = document.getElementById("total").innerText;
+  var coupon = document.getElementById("input").value;
 
   $.ajax({
      url:"{{path("placeorder", {'id': offers.id})}}",
      type: 'POST',
-     data:{"plan":plan ,"total":total},
+     data:{"plan":plan ,"total":total,"code":coupon},
      success: function(rep){
             // data.redirect contains the string URL to redirect to
         window.location.href = '/checkout/'+rep;
@@ -70,7 +80,33 @@ function sendData(){
 
 
 }
- 
+ </script>
+  <script src="{{ asset('js/jquery.js') }}"></script>
+     <script>
+     $("#input").keyup(
+            function(){
+                var DATA = document.getElementById("input").value;
+                var total = document.getElementById("total").innerText;
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('redeem')}}",
+                    data:{"code":DATA},
+                    success: function (reduction) {
+                       var newTotal = total - (total*(reduction*0.01));
+                        if(reduction != 0){
+                         
+                        document.getElementById('total').innerText=newTotal;
+                        document.getElementById("input").disabled = true;
+                        document.getElementById("toggle").value = "Redeemed";
+                        document.getElementById("toggle").disabled = true;     
+
+                        }
+                        else {
+                          document.getElementById('total').innerText=newTotal;
+                        }
+                    }
+                });
+            });
 
 </script>
 

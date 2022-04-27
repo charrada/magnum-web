@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="coupon")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CouponRepository")
  */
 class Coupon
 {

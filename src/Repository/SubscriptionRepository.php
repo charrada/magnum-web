@@ -45,22 +45,22 @@ class SubscriptionRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Subscription[] Returns an array of Subscription objects
-    //  */
-    /*
+     /**
+      * @return Subscription[] Returns an array of Subscription objects
+     */
+   
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
+            ->andWhere('s.order = :order')
+            ->setParameter('order', $value)
+            ->orderBy('s.order', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+   
 
     /*
     public function findOneBySomeField($value): ?Subscription
