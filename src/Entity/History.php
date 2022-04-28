@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
 use \DateTime;
 
 
@@ -98,7 +99,7 @@ class History
         return $this;
     }
 
-    public function getUser(): ?int
+    public function getUser(): ?Users
     {
         return $this->user;
     }

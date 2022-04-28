@@ -1,2 +1,0 @@
-composer.enable: true
-composer.autoloader_path: "%project_root%\/vendor\/autoload.php"

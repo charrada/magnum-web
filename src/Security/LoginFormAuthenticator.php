@@ -20,6 +20,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
@@ -28,6 +29,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public const LOGIN_ROUTE = 'app_login';
     public const SUCCESS_ROUTE = 'home';
 
+    private $userProvider;
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
@@ -69,10 +71,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
+        $user = new Users();
         $user = $this->entityManager->getRepository(Users::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
+        }
+
+        if ($user->getStatus() == 'Banned') {
+            throw new CustomUserMessageAuthenticationException('This user has been banned');
         }
 
         return $user;
