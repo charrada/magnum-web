@@ -125,5 +125,13 @@ class Subscription
         return $this;
     }
 
+    public function isExpired() : bool {
+        $curr_time = new \DateTime('NOW');
+      if ($this->expireDate < $curr_time) 
+      {  
+          return true; }
+          return false;
+    }
+
 
 }

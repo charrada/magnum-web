@@ -44,6 +44,8 @@
      
   </div>
 </form>
+<span id ="CouponMsgSuccess" class ="CouponMsgs"></span>
+<span id ="CouponMsgError" class ="CouponMsge"></span>
 </div>
     <div class="center">
       <span>Total : $</span><span id ="total" name ="total"></span>
@@ -80,7 +82,7 @@ function sendData(){
 
 
 }
- </script>
+</script>
   <script src="{{ asset('js/jquery.js') }}"></script>
      <script>
      $("#input").keyup(
@@ -92,23 +94,34 @@ function sendData(){
                     url: "{{ path('redeem')}}",
                     data:{"code":DATA},
                     success: function (reduction) {
-                       var newTotal = total - (total*(reduction*0.01));
-                        if(reduction != 0){
-                         
+                       
+                        if(reduction != 0 && reduction != "used"){    
+                        var newTotal = total - (total*(reduction*0.01));                    
                         document.getElementById('total').innerText=newTotal;
                         document.getElementById("input").disabled = true;
                         document.getElementById("toggle").value = "Redeemed";
-                        document.getElementById("toggle").disabled = true;     
+                        document.getElementById("toggle").disabled = true; 
+                        document.getElementById("CouponMsgSuccess").innerHTML = "You've just redeemed your "+reduction+" % discount !";  
+                        document.getElementById("CouponMsgError").innerHTML = "";  
+
+                        }
+                        else if(reduction == "used"){
+                          document.getElementById('total').innerText=total;
+                          document.getElementById("CouponMsgError").innerHTML = "Coupon code already used !";
+                          document.getElementById("CouponMsgSuccess").innerHTML = "";
 
                         }
                         else {
-                          document.getElementById('total').innerText=newTotal;
+                          document.getElementById('total').innerText=total;
+                          document.getElementById("CouponMsgError").innerHTML = "Invalid coupon code !";
+                          document.getElementById("CouponMsgSuccess").innerHTML = "";
+
                         }
                     }
                 });
             });
-
 </script>
+
 
 
 <script src="{{ asset('js/slider.js')}}"></script>

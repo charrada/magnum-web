@@ -10,27 +10,39 @@ use App\Entity\Users;
 use App\Repository\OfferRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OfferType;
+use Knp\Component\Pager\PaginatorInterface;
 
 class OfferController extends AbstractController
 {
     /**
      * @Route("/offermanager", name="app_offer")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findBy(['user' => $this->getUser()]);
-        return $this->render('offer/offermanager.html.twig', ["offers"=>$offers]
+        $offers=$repository->findAll();
+        $pagedOffers = $paginator->paginate(
+            $offers, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            3 // Nombre de résultats par page
+        );
+        return $this->render('offer/offermanager.html.twig', ["offers"=>$pagedOffers]
         );
     }
       /**
      * @Route("/offerlist", name="offerlist")
      */
-    public function offerList(): Response
+    public function offerList(Request $request, PaginatorInterface $paginator): Response
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findBy(['user' => $this->getUser()]);
-        return $this->render('offer/offerlist.html.twig', ["offers"=>$offers]
+        $offers=$repository->findAll();
+        $pagedOffers = $paginator->paginate(
+            $offers, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            3 // Nombre de résultats par page
+        );
+
+        return $this->render('offer/offerlist.html.twig', ["offers"=>$pagedOffers]
         );
     }
       /**
@@ -100,6 +112,16 @@ class OfferController extends AbstractController
 
     return $this->render("offer/addoffer.html.twig", ["form" => $form->createView()]);
 }
+  /**
+     * @Route("/back/offerchecker", name="offerchecker")
+     */
+    public function offerChecker(): Response
+    {
+        $repository=$this->getDoctrine()->getRepository(Offer::class);
+        $offers=$repository->findAll();
+        return $this->render('offer/offerback.html.twig', ["offers"=>$offers]
+        );
+    }
 
   //  /**
  //    * @Route("/deleteoffer/{id}",name="deleteoffer")

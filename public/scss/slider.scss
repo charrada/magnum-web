@@ -137,3 +137,27 @@
   #ok {
     flex: none;
   }
+  .CouponMsge {
+    font-size: 1rem;
+    align-items: center;
+    float: left;
+    opacity: 1;
+    position: relative;
+    color:rgb(194, 19, 19);
+    animation: animate1 4s 2s 1 ease-in-out ;
+  }
+  .CouponMsgs {
+    font-size: 1rem;
+    align-items: center;
+    float: left;
+    opacity: 1;
+    color:rgb(19, 235, 66);
+  }
+  @keyframes animate1{
+    0%,100%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+}
