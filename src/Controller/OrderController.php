@@ -15,11 +15,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Security\Core\Security;
 
 
 
 class OrderController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
     /**
      * @Route("/order", name="app_order")
      */
@@ -56,15 +63,13 @@ class OrderController extends AbstractController
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $offers=$repository->find($id);
 
-        $repository=$this->getDoctrine()->getRepository(Users::class);
-        $id = 1;
-        $user=$repository->find($id);
+        $curr_user = $this->security->getUser();  
 
         $order = new Order();      
         $date = date('Y-m-d H:i:s:v');
         $order->setOrderdate($date);
         $order->setStatus("Pending");
-        $order->setUser($user);
+        $order->setUser($curr_user);
         $order->setOffer($offers);
         $plan =$request->request->get('plan');
         $total =$request->request->get('total');
@@ -81,7 +86,7 @@ class OrderController extends AbstractController
 
            $subscription = new Subscription();
            $subscription->setOrder($lastOrder);
-           $subscription->setUserId($id);
+           $subscription->setUserId($curr_user->getID());
            
            $subcreated = new \DateTime('NOW');
            $subscription->setStartDate(new \DateTime('NOW'));
@@ -112,14 +117,14 @@ class OrderController extends AbstractController
 
         $email = (new TemplatedEmail())
         ->from('devel.magnum@gmail.com')
-        ->to($user->getEmail())
+        ->to($curr_user->getEmail())
         ->subject('About your order !')
         ->htmlTemplate('email/order.html.twig')
         ->context([
           'order' => $order
         ]);
 
-      //  $mailer->send($email);
+       $mailer->send($email);
 
      
          return new JsonResponse($order->getId());

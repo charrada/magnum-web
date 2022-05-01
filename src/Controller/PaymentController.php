@@ -17,9 +17,16 @@ use Symfony\Component\String\ByteString;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
 class PaymentController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
     /**
      * @Route("/payment", name="payment")
      */
@@ -41,9 +48,6 @@ class PaymentController extends AbstractController
             $subs=$repository->findOneBy(array('order' => $orders));
             $total=$orders->getTotal();
             $plan =$orders->getPlan();
-            $repository=$this->getDoctrine()->getRepository(Users::class);
-            $id = 1;
-            $user=$repository->find($id);
             $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items'           => [
@@ -64,16 +68,6 @@ class PaymentController extends AbstractController
            
         ]);
     
-        $status = $session->retrieve($session->id,
-            []
-          );
-
-           
-
-              if(str_contains($session->url,'success-url')){
-       
-
-            }
          
 
         return $this->redirect($session->url, 303);
@@ -91,9 +85,7 @@ class PaymentController extends AbstractController
             $subs=$repository->findOneBy(array('order' => $orders));
             $total=$orders->getTotal();
             $plan =$orders->getPlan();
-            $repository=$this->getDoctrine()->getRepository(Users::class);
-            $id = 1;
-            $user=$repository->find($id);
+            $curr_user = $this->security->getUser();  
             $orders->setStatus("Completed");
             $subs->setStatus("Active");
              $em = $this->getDoctrine()->getManager();
@@ -102,7 +94,7 @@ class PaymentController extends AbstractController
              
              if ($plan >= 3 && $plan <= 5){
                 $coupon = new Coupon(); 
-                $coupon->setUserId($id);
+                $coupon->setUserId($curr_user->getID());
                 $coupon->setCode(ByteString::fromRandom(12)->toString());
                 $coupon->setReduction(10);
                 $coupon->setUsed("false");
@@ -110,19 +102,19 @@ class PaymentController extends AbstractController
                 $em->persist($coupon);
                 $email = (new TemplatedEmail())
                 ->from('devel.magnum@gmail.com')
-                ->to($user->getEmail())
+                ->to($curr_user->getEmail())
                 ->subject('You\'ve recieved a new coupon')
                 ->htmlTemplate('email/coupon.html.twig')
                 ->context([
                   'coupon' => $coupon
                 ]);
     
-                $mailer->send($email);
+               $mailer->send($email);
 
              }
              else if ($plan >= 6 && $plan <= 12){
                 $coupon = new Coupon(); 
-                $coupon->setUserId($id);
+                $coupon->setUserId($curr_user->getID());
                 $coupon->setCode(ByteString::fromRandom(12)->toString());
                 $coupon->setReduction(20);
                 $coupon->setUsed("false");
@@ -130,24 +122,24 @@ class PaymentController extends AbstractController
                 $em->persist($coupon);
                 $email = (new TemplatedEmail())
                 ->from('devel.magnum@gmail.com')
-                ->to($user->getEmail())
+                ->to($curr_user->getEmail())
                 ->subject('You\'ve recieved a new coupon')
                 ->htmlTemplate('email/coupon.html.twig')
                 ->context([
                   'coupon' => $coupon
                 ]);
-                $mailer->send($email);
+              $mailer->send($email);
             }
             $email = (new TemplatedEmail())
             ->from('devel.magnum@gmail.com')
-            ->to($user->getEmail())
+            ->to($curr_user->getEmail())
             ->subject('About your order !')
             ->htmlTemplate('email/order.html.twig')
             ->context([
               'order' => $orders
             ]);
     
-           // $mailer->send($email);
+            $mailer->send($email);
             $em ->flush();
         return $this->render('payment/success.html.twig', ["orders" => $orders]);
     }
