@@ -6,6 +6,7 @@ use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -18,21 +19,12 @@ class ResetWithTokenType extends AbstractType
         array $options
     ): void {
         $builder
-            ->add("password", PasswordType::class, [
-                "required" => true,
-                "label" => false,
-                "attr" => [
-                    "class" => "form-control",
-                    "placeholder" => "Password",
-                ],
-            ])
-            ->add("password_confirm", PasswordType::class, [
-                "required" => true,
-                "label" => false,
-                "attr" => [
-                    "class" => "form-control",
-                    "placeholder" => "Confirm password",
-                ],
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'options' => ['attr' => ['class' => 'form-control']],
+                'required' => true,
+                'first_options'  => ['label' => 'New password'],
+                'second_options'  => ['label' => 'Repeat password'],
             ])
             ->add("confirm", SubmitType::class, [
                 "attr" => ["class" => "btn btn-primary"],

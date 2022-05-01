@@ -27,6 +27,7 @@ class OfferController extends AbstractController
             3 // Nombre de résultats par page
         );
         return $this->render('offer/offermanager.html.twig', ["offers"=>$pagedOffers]
+
         );
     }
       /**
@@ -43,6 +44,7 @@ class OfferController extends AbstractController
         );
 
         return $this->render('offer/offerlist.html.twig', ["offers"=>$pagedOffers]
+
         );
     }
       /**

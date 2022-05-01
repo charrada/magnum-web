@@ -10,15 +10,22 @@ use App\Entity\Offer;
 use App\Entity\Users;
 use App\Entity\Subscription;
 use App\Entity\Coupon;
+<<<<<<< HEAD
 use App\Repository\UsersRepository;
+=======
+>>>>>>> main
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
+<<<<<<< HEAD
 use Dompdf\Dompdf;
 use Dompdf\Options;
+=======
+
+>>>>>>> main
 
 
 class OrderController extends AbstractController
@@ -53,11 +60,19 @@ class OrderController extends AbstractController
     /**
      *@Route("/placeorder/{id}",name="placeorder")
      */
+<<<<<<< HEAD
     public function placeOrder(Request $request,int $id,MailerInterface $mailer,UsersRepository $userRepo){
+=======
+    public function placeOrder(Request $request,int $id,MailerInterface $mailer){
+>>>>>>> main
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $offers=$repository->find($id);
 
         $curr_user = $this->security->getUser();  
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         $order = new Order();      
         $date = date('Y-m-d H:i:s:v');
         $order->setOrderdate($date);
@@ -117,7 +132,11 @@ class OrderController extends AbstractController
           'order' => $order
         ]);
 
+<<<<<<< HEAD
           $mailer->send($email);
+=======
+       $mailer->send($email);
+>>>>>>> main
 
      
          return new JsonResponse($order->getId());
@@ -133,10 +152,19 @@ class OrderController extends AbstractController
         $repository=$this->getDoctrine()->getRepository(Coupon::class);
         $inputCoupon =$request->request->get('code');
         $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
+<<<<<<< HEAD
         $curr_user = $this->security->getUser();  
         try
         {
         if (($taggedCoupon->getUsed() == "false") && ($curr_user->getID() == $taggedCoupon->getUserId())){
+=======
+        $repository=$this->getDoctrine()->getRepository(Users::class);
+        $id = 1;
+        $user=$repository->find($id);
+        try
+        {
+        if (($taggedCoupon->getUsed() == "false") && ($user->getId() == $taggedCoupon->getUserId())){
+>>>>>>> main
            
             return new JsonResponse($taggedCoupon->getReduction()); 
 
@@ -148,6 +176,7 @@ class OrderController extends AbstractController
   
         return new JsonResponse(0); 
     }
+<<<<<<< HEAD
 
          /**
      * @Route("/back/orderchecker", name="orderchecker")
@@ -185,5 +214,7 @@ class OrderController extends AbstractController
 
 
     }
+=======
+>>>>>>> main
 
 }

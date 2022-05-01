@@ -25,7 +25,7 @@ class HistoryType extends AbstractType
                     'Billing' => 'Billing',
                     'Profile' => 'Profile',
                 ],
-                'attr' => [ "class" => "form-control" ],
+                'attr' => [ "class" => "form-select form-select-sm" ],
             ])
             ->add("clear", SubmitType::class, [
                 "attr" => ["class" => "btn btn-danger"],
@@ -39,6 +39,7 @@ class HistoryType extends AbstractType
     {
         $resolver->setDefaults([
             "data_class" => History::class,
+            "attr" => [ 'class' => 'form-inline'],
         ]);
     }
 }

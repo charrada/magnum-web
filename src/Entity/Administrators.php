@@ -11,8 +11,19 @@ use App\Entity\Users;
  * @ORM\Table(name="Administrators")
  * @ORM\Entity
  */
-class Administrators extends Users
+class Administrators extends Users implements \Serializable
 {
+    /**
+     * @var \Users
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ID", referencedColumnName="ID")
+     * })
+     */
+    private $id;
+
     /**
      * @var string
      *
@@ -27,31 +38,9 @@ class Administrators extends Users
      */
     private $lastname;
 
-    /**
-     * @var \Users
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ID", referencedColumnName="ID")
-     * })
-     */
-    private $id;
-
     public function getId(): ?int
     {
-        return $this->id;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstname;
+        return parent::getID();
     }
 
     public function setId(int $id): self
@@ -60,15 +49,24 @@ class Administrators extends Users
         return $this;
     }
 
-    public function setFirstName(string $firstname): self
+    public function getLastName(): ?string
     {
-        $this->firstname = firstname;
+        return $this->lastname;
+    }
+
+    public function setLastName(string $lastname): self {
+        $this->lastname = lastname;
         return $this;
     }
 
-    public function setLastName(string $lastname): self
+    public function getFirstName(): ?string
     {
-        $this->lastname = lastname;
+        return $this->firstname;
+    }
+
+    public function setFirstName(string $firstname): self
+    {
+        $this->firstname = firstname;
         return $this;
     }
 }

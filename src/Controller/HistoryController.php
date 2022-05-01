@@ -103,6 +103,13 @@ class HistoryController extends AbstractController
             }
         }
 
+        if (sizeof($history) == 0) {
+            $this->addFlash(
+                'warning',
+                'You currently have no history of this kind.'
+            );
+        }
+
         return $this->render('user/tabs/history/index.html.twig', [
             'form' => $form->createView(),
             'history' => $history,

@@ -3,7 +3,6 @@
 
 
 {% block body %}
-{{ include('_ellipsis.html.twig') }}
 {{ include('_navbar.html.twig') }}
   <link rel="stylesheet" href="{{ asset('scss/slider.scss')}}">
         
@@ -44,8 +43,10 @@
      
   </div>
 </form>
+
 <span id ="CouponMsgSuccess" class ="CouponMsgs"></span>
 <span id ="CouponMsgError" class ="CouponMsge"></span>
+
 </div>
     <div class="center">
       <span>Total : $</span><span id ="total" name ="total"></span>
@@ -82,6 +83,7 @@ function sendData(){
 
 
 }
+
 </script>
   <script src="{{ asset('js/jquery.js') }}"></script>
      <script>

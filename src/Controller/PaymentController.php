@@ -108,8 +108,8 @@ class PaymentController extends AbstractController
                 ->context([
                   'coupon' => $coupon
                 ]);
-    
                 $mailer->send($email);
+
 
              }
              else if ($plan >= 6 && $plan <= 12){
@@ -129,6 +129,7 @@ class PaymentController extends AbstractController
                   'coupon' => $coupon
                 ]);
                 $mailer->send($email);
+
             }
             $email = (new TemplatedEmail())
             ->from('devel.magnum@gmail.com')
