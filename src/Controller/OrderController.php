@@ -56,7 +56,6 @@ class OrderController extends AbstractController
         $offers=$repository->find($id);
 
         $curr_user = $this->security->getUser();  
-        $user=$userRepo->findOneBy(['username' => $curr_user->getUsername()]);
         $order = new Order();      
         $date = date('Y-m-d H:i:s:v');
         $order->setOrderdate($date);
@@ -78,7 +77,7 @@ class OrderController extends AbstractController
 
            $subscription = new Subscription();
            $subscription->setOrder($lastOrder);
-           $subscription->setUserId($user->getId());
+           $subscription->setUserId($curr_user->getID());
            
            $subcreated = new \DateTime('NOW');
            $subscription->setStartDate(new \DateTime('NOW'));
@@ -109,7 +108,7 @@ class OrderController extends AbstractController
 
         $email = (new TemplatedEmail())
         ->from('devel.magnum@gmail.com')
-        ->to($user->getEmail())
+        ->to($curr_user->getEmail())
         ->subject('About your order !')
         ->htmlTemplate('email/order.html.twig')
         ->context([
@@ -132,12 +131,10 @@ class OrderController extends AbstractController
         $repository=$this->getDoctrine()->getRepository(Coupon::class);
         $inputCoupon =$request->request->get('code');
         $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
-        $repository=$this->getDoctrine()->getRepository(Users::class);
-        $id = 1;
-        $user=$repository->find($id);
+        $curr_user = $this->security->getUser();  
         try
         {
-        if (($taggedCoupon->getUsed() == "false") && ($user->getId() == $taggedCoupon->getUserId())){
+        if (($taggedCoupon->getUsed() == "false") && ($curr_user->getID() == $taggedCoupon->getUserId())){
            
             return new JsonResponse($taggedCoupon->getReduction()); 
 
