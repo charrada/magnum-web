@@ -46,6 +46,11 @@ class Podcasters extends Users
      */
     private $id;
 
+    public function getRoles()
+    {
+        return array('ROLE_PODCASTERS');
+    }
+
     public function getId(): ?int
     {
         return parent::getID();

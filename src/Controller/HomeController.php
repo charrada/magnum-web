@@ -12,4 +12,9 @@ class HomeController extends AbstractController
     {
         return $this->render("home/index.html.twig", []);
     }
+
+    public function backend_index(): Response
+    {
+        return $this->render("backend/index.html.twig", []);
+    }
 }
