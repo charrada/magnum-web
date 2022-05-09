@@ -21,17 +21,17 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                           <th>Podcaster Name</th>
+                            <th>Podcaster Name</th>
                             <th>Description</th>
                             <th>Price</th>
                             <th>Image</th>
                         </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody> 
                         {% for ofs in offers %}
                             <tr>
-                            <td>{{ ofs.User.username}}</td>
+                            <td>{{ ofs.user.username}}</td>
                                 <td>{{ ofs.description }}</td>
                                 <td>{{ ofs.price }}</td>
                                 <td> <img width="20%" height="20%" src="{{ asset('img/ofs-img/'~ ofs.Image) }}" alt=""></td>
