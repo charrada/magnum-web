@@ -1,0 +1,84 @@
+{% extends 'back/back.base.html.twig' %}
+
+
+
+{% block body %}
+<style type="text/css">
+.blue > p {
+    color: blue;
+}
+.green > p {
+    color: green;
+}
+.red > p {
+    color: red;
+}
+
+</style>
+
+
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        
+     
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+      
+            <div class="card-header py-3">
+                
+                  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Orders list</h1>
+                        <a href="{{path("orderspdf")}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate PDF file</a>
+                  </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Offer</th>
+                            <th>User</th>
+                            <th>Plan</th>
+                            <th>Total</th>
+                            <th>Order date</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for ors in orders %}
+                            <tr>
+                                <td> <img width="20%" height="20%" src="{{ asset('img/ofs-img/'~ ors.Offer.image) }}" alt=""></td>
+                                <td>{{ ors.User.username }}</td>
+                                <td>{{ ors.plan }} month(s)</td>
+                                <td>${{ ors.total }}</td>
+                                <td>{{ ors.orderdate }}</td>
+                         {% if ors.status == 'Completed' %}
+                                <td class ="blue"><p>Completed</p></td>
+                         {% elseif ors.status == 'Pending' %}
+                                <td class ="green"><p>Pending</p></td>
+                         {% else %}
+                                 <td class ="red"><p>Canceled</p></td>
+                            {% endif %}    
+
+                            </tr>
+                        {% endfor %}
+                     
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+
+
+{% endblock %}

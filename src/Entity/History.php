@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
+use \DateTime;
+
 
 /**
  * History
  *
- * @ORM\Table(name="history", indexes={@ORM\Index(name="fk_userID_hist", columns={"userID"})})
- * @ORM\Entity
+ * @ORM\Table(name="History", indexes={@ORM\Index(name="fk_userID_hist", columns={"userID"})})
+ * @ORM\Entity(repositoryClass="App\Repository\HistoryRepository")
  */
 class History
 {
@@ -22,9 +25,9 @@ class History
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="activity", type="string", length=0, nullable=false)
+     * @ORM\Column(name="activity", type="string", length=30, nullable=true)
      */
     private $activity;
 
@@ -38,9 +41,9 @@ class History
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="time", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $time = 'current_timestamp()';
+    private $time = "CURRENT_TIMESTAMP";
 
     /**
      * @var \Users
@@ -50,22 +53,17 @@ class History
      *   @ORM\JoinColumn(name="userID", referencedColumnName="ID")
      * })
      */
-    private $userid;
 
-    public function getId(): ?int
+    private $user;
+
+    public function getID(): ?int
     {
         return $this->id;
     }
 
-    public function getActivity(): ?string
+    public function setID(int $id): self
     {
-        return $this->activity;
-    }
-
-    public function setActivity(string $activity): self
-    {
-        $this->activity = $activity;
-
+        $this->id = $id;
         return $this;
     }
 
@@ -77,33 +75,40 @@ class History
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getTime(): ?\DateTimeInterface
+    public function getActivity(): ?string
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(string $activity): self
+    {
+        $this->activity = $activity;
+        return $this;
+    }
+
+    public function getTime(): DateTime
+
     {
         return $this->time;
     }
 
-    public function setTime(\DateTimeInterface $time): self
+    public function setTime(DateTime $time): self
     {
         $this->time = $time;
-
         return $this;
     }
 
-    public function getUserid(): ?Users
+    public function getUser(): ?Users
     {
-        return $this->userid;
+        return $this->user;
     }
-
-    public function setUserid(?Users $userid): self
+    
+    public function setUser(Users $user): self
     {
-        $this->userid = $userid;
-
+        $this->user = $user;
         return $this;
     }
-
-
 }

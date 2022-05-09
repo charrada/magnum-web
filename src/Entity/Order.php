@@ -7,8 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Order
  *
- * @ORM\Table(name="order", indexes={@ORM\Index(name="fk_offer_order", columns={"offer_id"})})
+ * @ORM\Table(name="`order`", indexes={@ORM\Index(name="fk_order_user", columns={"user_id"}), @ORM\Index(name="fk_offer_order", columns={"offer_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  */
 class Order
 {
@@ -20,13 +21,6 @@ class Order
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="offer_id", type="integer", nullable=false)
-     */
-    private $offerId;
 
     /**
      * @var int
@@ -56,41 +50,52 @@ class Order
      */
     private $status;
 
+    /**
+     * @var \Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="ID")
+     * })
+     */
+    private $user;
+
+    /**
+     * @var \Offer
+     *
+     * @ORM\ManyToOne(targetEntity="Offer")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="offer_id", referencedColumnName="id")
+     * })
+     */
+    private $offer;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOfferId(): ?int
-    {
-        return $this->offerId;
-    }
 
-    public function setOfferId(int $offerId): self
-    {
-        $this->offerId = $offerId;
-
-        return $this;
-    }
-
-    public function getPlan(): ?int
+    public function getPlan()
     {
         return $this->plan;
     }
 
-    public function setPlan(int $plan): self
+    public function setPlan($plan): self
     {
         $this->plan = $plan;
 
         return $this;
     }
 
-    public function getTotal(): ?float
+
+    public function getTotal()
     {
         return $this->total;
     }
 
-    public function setTotal(float $total): self
+
+    public function setTotal($total): self
     {
         $this->total = $total;
 
@@ -117,6 +122,31 @@ class Order
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+
+    public function getUser(): ?Users
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Users $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getOffer(): ?Offer
+    {
+        return $this->offer;
+    }
+
+    public function setOffer(?Offer $offer): self
+    {
+        $this->offer = $offer;
 
         return $this;
     }

@@ -1,3 +1,51 @@
-index:
+home:
     path: /
-    controller: App\Controller\HomeController::home
+    controller: App\Controller\HomeController::index
+
+user_security:
+    path: /security
+    controller: App\Controller\UserController::getSecurityTab
+
+user_profile:
+    path: /profile
+    controller: App\Controller\UserController::getProfileTab
+
+user_history:
+    path: /history
+    controller: App\Controller\HistoryController::getHistoryTab
+
+register_user:
+    path: /register
+    controller: App\Controller\RegisterController::register
+
+generate_token:
+    path: /token/generate
+    controller: App\Controller\TokenController::generate
+
+input_token:
+    path: /token/input/{username}
+    controller: App\Controller\TokenController::input
+
+reset_with_token:
+    path: /token/reset/{username}/{token}
+    controller: App\Controller\TokenController::reset
+
+backend:
+    path: /backend
+    controller: App\Controller\BackendController::index
+
+backend_user_information:
+    path: /backend/users/info
+    controller: App\Controller\BackendController::getUserInformation
+
+backend_user_history:
+    path: /backend/users/history/{username}
+    controller: App\Controller\BackendController::getUserHistory
+
+backend_user_flags:
+    path: /backend/users/flags/{username}
+    controller: App\Controller\BackendController::getUserFlags
+
+backend_user_manage:
+    path: /backend/users/edit/{username}
+    controller: App\Controller\BackendController::manageUser

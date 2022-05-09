@@ -4,15 +4,31 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Entity\Users;
+
+
 /**
  * Administrators
  *
- * @ORM\Table(name="administrators")
+
+ * @ORM\Table(name="Administrators")
  * @ORM\Entity
  */
-class Administrators
+class Administrators extends Users implements \Serializable
 {
     /**
+     * @var \Users
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ID", referencedColumnName="ID")
+     * })
+     */
+    private $id;
+
+    /**
+
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=40, nullable=false)
@@ -26,53 +42,43 @@ class Administrators
      */
     private $lastname;
 
-    /**
-     * @var \Users
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ID", referencedColumnName="ID")
-     * })
-     */
-    private $id;
 
-    public function getFirstname(): ?string
+    public function getRoles()
     {
-        return $this->firstname;
+        return array('ROLE_ADMINS');
     }
 
-    public function setFirstname(string $firstname): self
+    public function getId(): ?int
     {
-        $this->firstname = $firstname;
+        return parent::getID();
+    }
 
+    public function setId(int $id): self
+    {
+        $this->id = id;
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
+
     {
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
 
+    public function setLastName(string $lastname): self {
+        $this->lastname = lastname;
         return $this;
     }
 
-    public function getId(): ?Users
+    public function getFirstName(): ?string
     {
-        return $this->id;
+        return $this->firstname;
     }
 
-    public function setId(?Users $id): self
+    public function setFirstName(string $firstname): self
     {
-        $this->id = $id;
-
+        $this->firstname = firstname;
         return $this;
     }
-
-
 }

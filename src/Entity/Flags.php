@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Flags
  *
- * @ORM\Table(name="flags", indexes={@ORM\Index(name="fk_userID_flags", columns={"userID"})})
+ * @ORM\Table(name="Flags", indexes={@ORM\Index(name="fk_flaggerID_flags", columns={"flaggerID"}), @ORM\Index(name="fk_userID_flags", columns={"flaggedID"})})
  * @ORM\Entity
  */
 class Flags
@@ -22,9 +22,9 @@ class Flags
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="offense", type="string", length=0, nullable=false)
+     * @ORM\Column(name="offense", type="string", length=30, nullable=true)
      */
     private $offense;
 
@@ -38,72 +38,27 @@ class Flags
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="time", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $time = 'current_timestamp()';
+    private $time = "CURRENT_TIMESTAMP";
 
     /**
      * @var \Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userID", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="flaggedID", referencedColumnName="ID")
      * })
      */
-    private $userid;
+    private $flaggedid;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getOffense(): ?string
-    {
-        return $this->offense;
-    }
-
-    public function setOffense(string $offense): self
-    {
-        $this->offense = $offense;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getTime(): ?\DateTimeInterface
-    {
-        return $this->time;
-    }
-
-    public function setTime(\DateTimeInterface $time): self
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
-    public function getUserid(): ?Users
-    {
-        return $this->userid;
-    }
-
-    public function setUserid(?Users $userid): self
-    {
-        $this->userid = $userid;
-
-        return $this;
-    }
-
-
+    /**
+     * @var \Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="flaggerID", referencedColumnName="ID")
+     * })
+     */
+    private $flaggerid;
 }

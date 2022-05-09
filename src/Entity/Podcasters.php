@@ -3,14 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
 
 /**
  * Podcasters
  *
- * @ORM\Table(name="podcasters")
+ * @ORM\Table(name="Podcasters")
  * @ORM\Entity
  */
-class Podcasters
+class Podcasters extends Users
 {
     /**
      * @var string
@@ -29,9 +30,9 @@ class Podcasters
     /**
      * @var string|null
      *
-     * @ORM\Column(name="biography", type="string", length=200, nullable=true, options={"default"="NULL","comment"="A short and sweet paragraph that tells users a little bit about the podcaster."})
+     * @ORM\Column(name="biography", type="string", length=200, nullable=true, options={"comment"="A short and sweet paragraph that tells users a little bit about the podcaster."})
      */
-    private $biography = 'NULL';
+    private $biography;
 
     /**
      * @var \Users
@@ -45,28 +46,24 @@ class Podcasters
      */
     private $id;
 
-    public function getFirstname(): ?string
+    public function getRoles()
     {
-        return $this->firstname;
+        return array('ROLE_PODCASTERS');
     }
 
-    public function setFirstname(string $firstname): self
+    public function getId(): ?int
     {
-        $this->firstname = $firstname;
-
-        return $this;
+        return parent::getID();
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
     {
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function getFirstName(): ?string
     {
-        $this->lastname = $lastname;
-
-        return $this;
+        return $this->firstname;
     }
 
     public function getBiography(): ?string
@@ -74,24 +71,27 @@ class Podcasters
         return $this->biography;
     }
 
-    public function setBiography(?string $biography): self
+    public function setId(int $id): self
     {
-        $this->biography = $biography;
-
+        $this->id = id;
         return $this;
     }
 
-    public function getId(): ?Users
+    public function setFirstName(string $firstname): self
     {
-        return $this->id;
-    }
-
-    public function setId(?Users $id): self
-    {
-        $this->id = $id;
-
+        $this->firstname = firstname;
         return $this;
     }
 
+    public function setLastName(string $lastname): self
+    {
+        $this->lastname = lastname;
+        return $this;
+    }
 
+    public function setBiography(string $biography): self
+    {
+        $this->biography = biography;
+        return $this;
+    }
 }

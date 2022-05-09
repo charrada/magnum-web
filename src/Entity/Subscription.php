@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="subscription", indexes={@ORM\Index(name="fk_order_subscription", columns={"order_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SubscriptionRepository")
  */
 class Subscription
 {
@@ -20,13 +21,6 @@ class Subscription
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="order_id", type="integer", nullable=false)
-     */
-    private $orderId;
 
     /**
      * @var int
@@ -49,29 +43,35 @@ class Subscription
      */
     private $expireDate;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=0, nullable=false)
+     */
+    private $status;
+
+    /**
+     * @var \Order
+     *
+     * @ORM\ManyToOne(targetEntity="Order")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     * })
+     */
+    private $order;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOrderId(): ?int
-    {
-        return $this->orderId;
-    }
-
-    public function setOrderId(int $orderId): self
-    {
-        $this->orderId = $orderId;
-
-        return $this;
-    }
-
-    public function getUserId(): ?int
+    public function getUserId()
     {
         return $this->userId;
     }
 
-    public function setUserId(int $userId): self
+    public function setUserId($userId): self
+
     {
         $this->userId = $userId;
 
@@ -100,6 +100,39 @@ class Subscription
         $this->expireDate = $expireDate;
 
         return $this;
+    }
+
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    public function isExpired() : bool {
+        $curr_time = new \DateTime('NOW');
+      if ($this->expireDate < $curr_time) 
+      {  
+          return true; }
+          return false;
     }
 
 

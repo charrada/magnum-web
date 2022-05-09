@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use \DateTime;
+use App\Entity\Users;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Tokens
  *
- * @ORM\Table(name="tokens", indexes={@ORM\Index(name="fk_userID_tokens", columns={"userID"})})
+ * @ORM\Table(name="Tokens", indexes={@ORM\Index(name="fk_userID_tokens", columns={"userID"})})
  * @ORM\Entity
  */
 class Tokens
@@ -33,14 +36,15 @@ class Tokens
      *
      * @ORM\Column(name="consumed", type="boolean", nullable=false)
      */
-    private $consumed = '0';
+    private $consumed = "0";
+
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $created = 'current_timestamp()';
+    private $created = "CURRENT_TIMESTAMP";
 
     /**
      * @var \Users
@@ -50,9 +54,11 @@ class Tokens
      *   @ORM\JoinColumn(name="userID", referencedColumnName="ID")
      * })
      */
-    private $userid;
+    private $user;
 
-    public function getId(): ?int
+    private $username;
+
+    public function getID(): ?int
     {
         return $this->id;
     }
@@ -61,6 +67,31 @@ class Tokens
     {
         return $this->token;
     }
+    public function getCreated()
+    {
+        return $this->created;
+    }
+    public function isConsumed(): ?bool
+    {
+        return $this->consumed;
+    }
+    public function getUser(): ?int
+    {
+        return $this->userid;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function setUser(Users $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+
 
     public function setToken(string $token): self
     {
@@ -69,9 +100,11 @@ class Tokens
         return $this;
     }
 
-    public function getConsumed(): ?bool
+    public function setCreated(DateTime $created): self
     {
-        return $this->consumed;
+        $this->created = $created;
+        return $this;
+
     }
 
     public function setConsumed(bool $consumed): self
@@ -80,30 +113,4 @@ class Tokens
 
         return $this;
     }
-
-    public function getCreated(): ?\DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    public function setCreated(\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getUserid(): ?Users
-    {
-        return $this->userid;
-    }
-
-    public function setUserid(?Users $userid): self
-    {
-        $this->userid = $userid;
-
-        return $this;
-    }
-
-
 }
