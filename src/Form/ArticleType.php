@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 
@@ -18,9 +21,15 @@ class ArticleType extends AbstractType
     {
         $builder
             //->add('authorID')
-            ->add('titre')
-            ->add('url')
+            ->add('title')
             ->add('content')
+            ->add('url',FileType::class,array('data_class' => null),
+            array(
+                'label' => 'file(pdf)',
+                'mapped'=>false,
+                'required'=>false,
+               
+        ))
         ;
     }
 

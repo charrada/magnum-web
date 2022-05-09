@@ -3,12 +3,11 @@
 namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Commentaire;
-use App\Entity\User;
+use App\Entity\Users;
 
 use App\Repository\ArticleRepository;
-use App\Repository\UserRepository;
+use App\Repository\UsersRepository;
 use App\Repository\CommentaireRepository;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -118,13 +117,32 @@ class ArticleController extends AbstractController
         $Article = new Article();
         $form = $this->createForm(ArticleType::class, $Article);
         $form->handleRequest($request);
+      
+        $entityManager = $this->getDoctrine()->getManager();
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $Article->setAuthorID(3);
-
-            $entityManager = $this->getDoctrine()->getManager();
-
+           
+         /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $form->get('url')->getData();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('uploads_directory'), $fileName);
+            $Article->setUrl($fileName);
+           
+            /*$file = $form->get('url')->getData();
+            $fileName = bin2hex(random_bytes(6)).'.'.$file->guessExtension();
+            $file->move ($this->getParameter('uploads_directory'),$fileName);
+            $Article->setUrl($fileName);
+            /*$file = $request->files->get('post')['url'];
+            $uploads_directory=$this->$this->getParameter('uploads_directory');
+            $filename =md5(uniqid(5)) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename  
+            );*/
+           // echo "<pes>";
+            //var_dump($file);die;
+           
             $entityManager->persist($Article);
             $entityManager->flush();
 
@@ -226,7 +244,7 @@ class ArticleController extends AbstractController
 /**
      * @Route("/articletest/{id}", name="reco_single", methods={"GET","POST"})
      */
-    public function reco_single(ArticleRepository $recoRepository,$id,Request $request,UserRepository $clientRepository,CommentaireRepository $commentRepository): Response
+    public function reco_single(ArticleRepository $recoRepository,$id,Request $request,UsersRepository $clientRepository,CommentaireRepository $commentRepository): Response
     {      
 
         $Recotype = $recoRepository->findBy(['id' => $id]);
@@ -238,24 +256,40 @@ class ArticleController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $val = $entityManager->getRepository(Article::class)->find($id);
-            $userr = $entityManager->getRepository(User::class)->find(1);
+            $userr = $entityManager->getRepository(Users::class)->find(8);
 
             $comment->setSubmitDate(new \DateTime())
-                ->setArticleID($val)
-                ->setUserID($userr);
+                ->setArticleid($val)
+                ->setUserid($userr);
                 //  ->setMessage($cleanString);
 
             $entityManager->persist($comment);
             $entityManager->flush();
             return $this->redirectToRoute('reco_single',['id'=>$id]);
         }
-        $recocomment = $commentRepository->findBy(['articleID'=>$id]);
+        $recocomment = $commentRepository->findBy(['articleid'=>$id]);
         return $this->render('article/articlesingle.html.twig', [
             'recos' => $Recotype,
             'comments'=>$recocomment,
             'form'=>$form->createView(),
         ]);
     }
+
+
+
+    
+
+/*
+    public function allArticles (NormalizerInterface $Normalizer ){
+        $repository = $this->getDoctrine()->getRepository(Article::class);
+        $articles = $repository->findAll();
+        $jsonContent = $Normalizer->normalize($articles,'json',['groups'=>'post:read']);
+        return $this->render('article/allArticlesJSON.html.twig', [
+            'data'=>$jsonContent,
+    ]);
+        return new Response(json_encode($jsonContent));
+
+     }*/
 
 
 }

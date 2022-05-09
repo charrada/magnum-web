@@ -2,111 +2,77 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serialize\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
-
-
 
 /**
- * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * Article
+ *
+ * @ORM\Table(name="article", indexes={@ORM\Index(name="authorID", columns={"authorID"})})
+ * @ORM\Entity
+
  */
 class Article
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     
+     *  @return AnnotationException
      */
     private $id;
 
-  
+    /**
+     * @var string
+     * @ORM\Column(name="title", type="string", length=50, nullable=false)
+     
+    
+     */
+    private $title;
 
     /**
-      *@Assert\NotBlank(message="remplir le champs url")
-
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     * @ORM\Column(name="url", type="text", length=0, nullable=false)
+     
      */
     private $url;
 
     /**
-          
-     *@Assert\NotBlank(message="remplir le champs content")
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=255, nullable=false)
+  
      */
     private $content;
-/**
-        *@Assert\NotBlank(message="remplir le champs titre")
 
-     * @ORM\Column(type="string", length=255)
-     */
-    private $titre;
     /**
-     * @var int
+     * @var \Podcasters
      *
-     * @ORM\Column(name="author_id_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Podcasters")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="authorID", referencedColumnName="ID")
+  
+     * })
      */
-    private $authorID;
-   /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="articleID")
-     */
-    private $commentaires;
-   
-    /**
-     * Article constructor.
-     */
-    public function __construct()
-    {
-        $this->commentaires = new ArrayCollection();
-    }
- /**
-     * @return Collection|Commentaire[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaire $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setIdreco($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaire $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getIdreco() === $this) {
-                $comment->setIdreco(null);
-            }
-        }
-
-        return $this;
-    }
+    private $authorid;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-   
-
-    public function getTitre(): ?string
+    public function getTitle(): ?string
     {
-        return $this->titre;
+        return $this->title;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitle(string $title): self
     {
-        $this->titre = $titre;
+        $this->title = $title;
 
         return $this;
     }
@@ -128,22 +94,24 @@ class Article
         return $this->content;
     }
 
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
+        return $this;
     }
 
-    public function getAuthorID()
+    public function getAuthorid(): ?Podcasters
     {
-        return $this->authorID;
+        return $this->authorid;
     }
 
-    public function setAuthorID(int $authorID): void
+    public function setAuthorid(?Podcasters $authorid): self
     {
-        $this->authorID = $authorID;
+        $this->authorid = $authorid;
 
+        return $this;
     }
 
-    
+
 }

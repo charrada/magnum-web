@@ -2,103 +2,111 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=CommentaireRepository::class)
+ * Commentaire
+ *
+ * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="articleID", columns={"articleID"}), @ORM\Index(name="userID", columns={"userID"})})
+ * @ORM\Entity
  */
 class Commentaire
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
- 
-
-   
     /**
-     *@Assert\NotBlank(message="remplir le champs content")
-     * @ORM\Column(type="string", length=150)
+     * @var string
+     *
+     * @ORM\Column(name="message", type="string", length=255, nullable=false)
      */
     private $message;
 
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="submitDate", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $submitdate = 'CURRENT_TIMESTAMP';
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentaires")
+     * @var \Article
+     *
+     * @ORM\ManyToOne(targetEntity="Article")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="articleid", referencedColumnName="id")
+     * })
      */
-    private $userID;
+    private $articleid;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="commentaires")
+     * @var \Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="ID")
+     * })
      */
-    private $articleID;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $submitDate;
+    private $userid;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    
-
     public function getMessage(): ?string
     {
         return $this->message;
     }
 
-    public function setMessage(?string $message): self
+    public function setMessage(string $message): self
     {
         $this->message = $message;
 
         return $this;
     }
 
-   
-
-    public function getUserID(): ?User
+    public function getSubmitdate(): ?\DateTimeInterface
     {
-        return $this->userID;
+        return $this->submitdate;
     }
 
-    public function setUserID(?User $userID): self
+    public function setSubmitdate(\DateTimeInterface $submitdate): self
     {
-        $this->userID = $userID;
+        $this->submitdate = $submitdate;
 
         return $this;
     }
 
-    public function getArticleID(): ?Article
+    public function getArticleid(): ?Article
     {
-        return $this->articleID;
+        return $this->articleid;
     }
 
-    public function setArticleID(?Article $articleID): self
+    public function setArticleid(?Article $articleid): self
     {
-        $this->articleID = $articleID;
+        $this->articleid = $articleid;
 
         return $this;
     }
 
-    public function getSubmitDate(): ?\DateTimeInterface
+    public function getUserid(): ?Users
     {
-        return $this->submitDate;
+        return $this->userid;
     }
 
-    public function setSubmitDate(\DateTimeInterface $submitDate): self
+    public function setUserid(?Users $userid): self
     {
-        $this->submitDate = $submitDate;
+        $this->userid = $userid;
 
         return $this;
     }
+
+
 }

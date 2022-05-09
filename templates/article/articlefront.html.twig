@@ -16,9 +16,10 @@
                     <div class="blog-entry">
                         <p>Content:{{ reco.getContent }}</p>
                         
-                        <p>Titre:{{ reco.titre }}</p>
+                        <p>Titre:{{ reco.title }}</p>
                         <div>
-                            <p>Url:{{ reco.getUrl }}</p>
+                              <a href="{{asset('uploads/' ~ reco.url)}}"
+                   class="btn btn-success">PDF</a>
                             <p><a href="{{ path('reco_single', {'id': reco.getId()}) }}">Read more</a></p>
                         </div>
                     </div>
