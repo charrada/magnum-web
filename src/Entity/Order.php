@@ -75,6 +75,7 @@ class Order
         return $this->id;
     }
 
+
     public function getPlan()
     {
         return $this->plan;
@@ -87,10 +88,12 @@ class Order
         return $this;
     }
 
+
     public function getTotal()
     {
         return $this->total;
     }
+
 
     public function setTotal($total): self
     {
@@ -122,6 +125,7 @@ class Order
 
         return $this;
     }
+
 
     public function getUser(): ?Users
     {

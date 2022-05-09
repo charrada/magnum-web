@@ -1,0 +1,119 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block body %}
+
+{#search2#}
+  {% block search %}
+        <form>
+            <div class="input-group input-group-dynamic mb-8">
+                <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+
+                <input class="form-control" id="search" placeholder="Search" type="text" >
+
+            </div>
+        </form>
+    {% endblock %}
+{#search 2#}        
+
+    <table id="t" class="table">
+        <thead>
+            <tr>
+                <th>Namecateg</th>
+                <th>Descriptioncateg</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody id="all">
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.namecateg }}</td>
+                <td>{{ categorie.descriptioncateg }}</td>
+                <td>
+                    <a href="{{ path('app_categorie_show', {'idcategorie': categorie.idcategorie}) }}">show</a>
+                    <a href="{{ path('app_categorie_edit', {'idcategorie': categorie.idcategorie}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        		 <tbody id="search"></tbody>    
+
+    </table>
+
+    <a href="{{ path('app_categorie_new') }}">Create new</a>
+
+
+
+
+    
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                    url : "{{ path('searchCategorie') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type : 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+                  
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                    success : function(retour){
+                        if(retour){
+                            $('#t tbody#search').empty();
+                           // window.alert("sometext");
+						
+                            $.each(JSON.parse(retour), function(i, obj) {
+
+                                $('#t tbody#all').hide();
+
+
+                                $('#t tbody#search').append("<tr>");
+                               $('#t tbody#search').append(" <td>"+obj.namecateg+"</td>"); 
+                                $('#t tbody#search').append(" <td>"+obj.descriptioncateg+"</td>");
+
+                               
+                             //   $('#t tbody#search').append("<td> <button class='btn btn-outline-primary' type='submit' onclick='window.location.href =" +obj.idjeux+"'; role='button'> Show </button>");
+                                //$('#t tbody#search').append(" <button class='btn btn-outline-primary' type='submit' onclick='window.location.href =" +obj.idjeux+"'; role='button'> Edit </button></td>");
+
+
+
+                                $('#t tbody#search').append("</tr>");
+                                // <td>'+obj.description+'</td><td>'+obj.dateajout+'  </td><td></td><td><a href="article/'+obj.id+'">show</a> </br><a href="article/'+obj.id+'/edit">edit</a></td></tr>');
+                            });
+                        }
+                        //$('#t tbody#search').append('<tr><td> '+obj.lieu+'  </td><td>    '+obj.nbPlace+'  </td><td>'+obj.descriptions+' </td><td>'+obj.dateEvent+' </td><td>'+obj.getcategory+' </td><td>'+obj.Description+'</td><td><td><a href="event/'+obj.idEvent+'/edit">Modifier</a></td></tr>');
+                        else
+                        {
+
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+
+
+
+
+
+        });
+    </script>
+
+
+
+{% endblock %}

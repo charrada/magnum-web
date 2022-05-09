@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Offer
@@ -90,10 +92,12 @@ class Offer
         return $this;
     }
 
+
     public function getImage()
     {
         return $this->image;
     }
+
 
     public function setImage($image): self
     {
@@ -101,6 +105,7 @@ class Offer
 
         return $this;
     }
+
 
     public function getUser(): ?Users
     {

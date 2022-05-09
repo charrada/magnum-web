@@ -53,6 +53,7 @@ class History
      *   @ORM\JoinColumn(name="userID", referencedColumnName="ID")
      * })
      */
+
     private $user;
 
     public function getID(): ?int
@@ -89,6 +90,7 @@ class History
     }
 
     public function getTime(): DateTime
+
     {
         return $this->time;
     }

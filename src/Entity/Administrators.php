@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use App\Entity\Users;
+
 
 /**
  * Administrators
  *
+
  * @ORM\Table(name="Administrators")
  * @ORM\Entity
  */
@@ -25,6 +28,7 @@ class Administrators extends Users implements \Serializable
     private $id;
 
     /**
+
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=40, nullable=false)
@@ -37,6 +41,7 @@ class Administrators extends Users implements \Serializable
      * @ORM\Column(name="lastName", type="string", length=40, nullable=false)
      */
     private $lastname;
+
 
     public function getRoles()
     {
@@ -55,9 +60,11 @@ class Administrators extends Users implements \Serializable
     }
 
     public function getLastName(): ?string
+
     {
         return $this->lastname;
     }
+
 
     public function setLastName(string $lastname): self {
         $this->lastname = lastname;

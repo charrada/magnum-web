@@ -38,6 +38,7 @@ class Tokens
      */
     private $consumed = "0";
 
+
     /**
      * @var \DateTime
      *
@@ -61,6 +62,7 @@ class Tokens
     {
         return $this->id;
     }
+
     public function getToken(): ?string
     {
         return $this->token;
@@ -90,9 +92,11 @@ class Tokens
         return $this;
     }
 
+
     public function setToken(string $token): self
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -100,11 +104,13 @@ class Tokens
     {
         $this->created = $created;
         return $this;
+
     }
 
     public function setConsumed(bool $consumed): self
     {
         $this->consumed = $consumed;
+
         return $this;
     }
 }
