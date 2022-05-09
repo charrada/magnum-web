@@ -11,16 +11,24 @@ use App\Repository\OfferRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OfferType;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class OfferController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
     /**
      * @Route("/offermanager", name="app_offer")
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findAll();
+        $curr_user = $this->security->getUser(); 
+        $offers=$repository->findBy(['user' => $curr_user->getID()]);
         $pagedOffers = $paginator->paginate(
             $offers, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
