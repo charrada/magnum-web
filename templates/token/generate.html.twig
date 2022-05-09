@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h3>Generate a Token</h3>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+
+      {% for label, messages in app.flashes(['danger', 'success']) %}
+      {% for message in messages %}
+      <div class="alert alert-{{ label }}">
+	{{ message }}
+      </div>
+      {% endfor %}
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center">
+  <div class="container">
+
+    {{ form_start(form) }}
+      <div class="form-group row">
+	{{ form_label(form.username) }}
+	<div class="col-sm-3">
+	  {{ form_widget(form.username) }}
+	</div>
+      </div>
+
+      {{ form_widget(form.generate) }}
+    {{ form_end(form) }}
+
+    {{ form_widget(form.skip) }}
+  </div>
+</div>
+
+{% endblock %}

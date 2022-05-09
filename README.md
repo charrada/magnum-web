@@ -28,3 +28,5 @@ php bin/console server:start localhost:8000
 ```
 
 4. Visit `localhost:8000` in your browser.
+
+5. Open up phpmyadmin, and import the [magnum.sql](.sql/magnum.sql) database.

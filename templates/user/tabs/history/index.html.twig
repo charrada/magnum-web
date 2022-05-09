@@ -1,0 +1,37 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{app.user.username}}'s history {% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>My history</h1>
+  {# Notifications #}
+  <div class="row justify-content-center">
+    <div class="mt-4 col-12 col-lg-8">
+      {% for label, messages in app.flashes(['danger', 'warning', 'success']) %}
+      {% for message in messages %}
+      <div class="alert alert-{{ label }}">
+	{{ message }}
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {# History manipulation form #}
+  {{ form_start(form)}}
+
+  {{ form_label(form.activity)}}
+  {{ form_widget(form.activity)}}
+
+  {{ form_widget(form.clear)}}
+  {{ form_widget(form.filter)}}
+
+  {{ form_end(form)}}
+
+  {# Display user history #}
+  {% for h in history %}
+  {{ include ('user/tabs/history/_history_card.html.twig', { 'history': h }) }}
+  {% endfor %}
+</div>
+  {% endblock %}

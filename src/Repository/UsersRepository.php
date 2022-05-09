@@ -4,17 +4,14 @@ namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
-/**
- * @method Users|null find($id, $lockMode = null, $lockVersion = null)
- * @method Users|null findOneBy(array $criteria, array $orderBy = null)
- * @method Users[]    findAll()
- * @method Users[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class UsersRepository extends ServiceEntityRepository
+
+class UsersRepository
+    extends ServiceEntityRepository
+    implements UserLoaderInterface
+
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -22,55 +19,40 @@ class UsersRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @return Users
      */
-    public function add(Users $entity, bool $flush = true): void
+    public function findMatchingUsers(Users $user): array
     {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $man = $this->getEntityManager();
+
+        $query = $man
+               ->createQuery(
+                   'SELECT u
+            FROM App\Entity\Users u
+            WHERE u.id = :id OR u.username = :username OR u.email = :email'
+               )
+               ->setParameters([
+                   "id" => $user->getId(),
+                   "username" => $user->getUsername(),
+                   "email" => $user->getEmail(),
+               ]);
+
+        return $query->getResult();
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Users $entity, bool $flush = true): void
+    public function loadUserByUsername($usernameOrEmail): ?User
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery(
+            'SELECT u
+                FROM App\Entity\Users u
+                WHERE u.username = :query
+                OR u.email = :query'
+        )
+                             ->setParameter('query', $usernameOrEmail)
+                             ->getOneOrNullResult();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

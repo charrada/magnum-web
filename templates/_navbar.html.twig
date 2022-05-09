@@ -7,7 +7,7 @@
 	<nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
 	  <!-- Nav brand -->
-	  <a href="{{ url('app_home') }}" class="nav-brand"><h1 class="logo">Magnum</h1></a>
+	  <a href="{{ url('home') }}" class="nav-brand"><h1 class="logo">Magnum</h1></a>
 
 	  <!-- Navbar Toggler -->
 	  <div class="classy-navbar-toggler">
@@ -32,6 +32,7 @@
 	    <!-- Nav Start -->
 	    <div class="classynav">
 	      <ul>
+<<<<<<< HEAD
 		<li><a href="{{ url('app_home') }}">Home</a></li>
 		<li><a href="{{ path('reco_index') }}">Articles crud</a></li>
 		<li><a href="{{ url('app_home') }}">Pages</a>
@@ -50,13 +51,41 @@
 		<li><a href="{{ url('app_home') }}">News</a></li>
 		<li><a href="{{ url('app_home') }}">Contact</a></li>
 		<li><a href="{{ url('app_login') }}">Login</a></li>
+=======
+		<li><a href="{{ url('home') }}">Home</a></li>
+		<li><a href="{{ url('home') }}">Albums</a></li>
+		<li><a href="{{ url('home') }}">Events</a></li>
+		<li><a href="{{ url('home') }}">News</a></li>
+	   </li>
+      {% if app.user %}
+        {% if app.user == "podcasters" %}
+         <li class="nav-item active">
+       	<a class="nav-link" href="{{ url('home') }}">Your offers</a>
+      </li>
+      {% endif %}
+	    <li><a href="{{ url('user_profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  {{ app.user.username }}
+	</a>
+  <ul class="dropdown">
+	  <li><a href="{{ path('user_profile', { username: app.user.username }) }}">Profile</a></li>
+	  <li><a href="{{ path('app_logout') }}">Logout</a></li>
+	</ul>
+  </li>
+      {% else %}
+      <li class="nav-item">
+	<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+      </li>
+      {% endif %}
+>>>>>>> main
 	      </ul>
 	    </div>
 	    <!-- Nav End -->
-
 	  </div>
 	</nav>
       </div>
     </div>
   </div>
 </header>
+
+
+

@@ -1,23 +1,36 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        all_users:
+            chain:
+                providers: [ 'administrators', 'podcasters', 'users' ]
+
+        users:
+            entity: { class: 'App\Entity\Users', property: username }
+
+        administrators:
+            entity: { class: 'App\Entity\Administrators', property: id }
+
+        podcasters:
+            entity: { class: 'App\Entity\Podcasters', property: id }
+        
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            provider: all_users
             anonymous: lazy
-            provider: users_in_memory
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+    encoders:
+        App\Entity\Users:
+            algorithm: bcrypt
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/profile, roles: [ ROLE_USERS, ROLE_ADMINS ] }
+        - { path: ^/history, roles: [ ROLE_USERS, ROLE_ADMINS ] }
+        - { path: ^/security, roles: [ ROLE_USERS, ROLE_ADMINS ] }
+        - { path: ^/backend, roles: ROLE_ADMINS }

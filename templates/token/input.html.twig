@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+	{% for label, messages in app.flashes(['danger']) %}
+	  {% for message in messages %}
+	    <div class="alert alert-{{ label }}">
+	      {{ message }}
+	    </div>
+	  {% endfor %}
+	{% endfor %}
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+	<h3>Input Your Token</h3>
+	<p>Have a look at your email, we sent you a token! If you haven't received one, try <a href="{{ url('generate_token') }}">generating a new one</a>.</p>
+	{{ form_start(form) }}
+	{{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

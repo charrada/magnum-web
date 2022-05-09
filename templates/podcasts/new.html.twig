@@ -1,0 +1,11 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}New Podcasts{% endblock %}
+
+{% block body %}
+    <h1>Create new Podcasts</h1>
+
+    {{ include('podcasts/_form.html.twig') }}
+
+    <a href="{{ path('app_podcasts_index') }}">back to list</a>
+{% endblock %}
