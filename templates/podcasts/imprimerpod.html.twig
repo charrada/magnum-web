@@ -1,0 +1,39 @@
+<h2 align ="center">Votre Podcast a été bien enregistrée </h2><hr>
+
+
+
+
+<table border="1" align="centre" class="table table-striped table-bordered" >
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Rating</th>
+				<th>Views</th>
+				<th>categorie</th>
+				<th>image</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for podcast in podcasts %}
+				<tr>
+					<td>{{ podcast.id }}</td>
+					<td>{{ podcast.title }}</td>
+					<td>{{ podcast.description }}</td>
+					<td>{{ podcast.rating }}</td>
+					<td>{{ podcast.views }}</td>
+					<td>{{ podcast.idcategorie.namecateg }}</td>
+                      <td>
+                    <img src="http://localhost/MAGNUM-WEB/public/uploads/{{podcast.image}}"
+                         alt = "" style = "width: 80px ; height:80px">
+                </td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+            </table>

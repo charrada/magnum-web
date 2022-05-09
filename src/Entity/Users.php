@@ -48,7 +48,6 @@ class Users implements UserInterface, \Serializable
     /**
      * @var string
      *
-
      * @ORM\Column(name="email", type="string", length=80, unique=true, nullable=false)
      */
     private $email;
@@ -100,6 +99,7 @@ class Users implements UserInterface, \Serializable
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
+
     }
 
     public function getAvatar(): ?string
@@ -111,7 +111,6 @@ class Users implements UserInterface, \Serializable
     {
         return $this->status;
     }
-
     public function setId(int $id): self
     {
         $this->id = $id;

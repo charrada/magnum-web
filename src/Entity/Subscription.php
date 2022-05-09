@@ -71,6 +71,7 @@ class Subscription
     }
 
     public function setUserId($userId): self
+
     {
         $this->userId = $userId;
 
@@ -100,6 +101,7 @@ class Subscription
 
         return $this;
     }
+
 
     public function getStatus(): ?string
     {

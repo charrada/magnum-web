@@ -1,0 +1,155 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Podcasts index
+{% endblock %}
+
+{% block body %}
+ {# <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+	<h1>Podcasts index</h1>
+ <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+#}
+ {#search2#}
+  {% block search %}
+        <form>
+            <div class="input-group input-group-dynamic mb-8">
+                <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+
+                <input class="form-control" id="search" placeholder="Search" type="text" >
+
+            </div>
+        </form>
+    {% endblock %}
+{#search 2#}       
+
+	<table class="table" id="t">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Rating</th>
+				<th>Views</th>
+				<th>File</th>
+				<th>Image</th>
+				<th>categorie</th>
+				<th>actions</th>
+
+			</tr>
+		</thead>
+		<tbody id="all">
+			{% for podcast in podcasts %}
+				<tr>
+					<td>{{ podcast.title }}</td>
+					<td>{{ podcast.description }}</td>
+					<td>{{ podcast.rating }}</td>
+					<td>{{ podcast.views }}</td>
+					<td>
+						<audio preload="auto" controls><source src="{{ asset('uploads/' ~ podcast.file) }}"></audio>
+						{{ podcast.file }}</td>
+					<td><img src="{{ asset('uploads/' ~ podcast.image) }}" alt="" width="100" height="100">
+					</td>
+
+					<td>{{ podcast.idcategorie.namecateg }}</td>
+					<td>
+						<a href="{{ path('app_podcasts_show', {'id': podcast.id}) }}">show</a>
+						<a href="{{ path('app_podcasts_edit', {'id': podcast.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		{# <a class="btn btn-primary" href="{{ path('statrate') }}">Voir statistiques</a> #}
+
+		<div class="container py-5">
+			<div class="d-flex justify-content-center">
+
+			</div>
+		</div>
+		 <tbody id="search"></tbody>    
+	</table>
+					 {{ knp_pagination_render(podcasts) }}
+
+	<a href="{{ path('app_podcasts_new') }}">Create new</a>
+
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                    url : "{{ path('searchPodcast') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type : 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                    success : function(retour){
+                        if(retour){
+                            $('#t tbody#search').empty();
+                           // window.alert("sometext");
+						
+                            $.each(JSON.parse(retour), function(o, obj) {
+
+                                $('#t tbody#all').hide();
+
+
+                                $('#t tbody#search').append("<tr>");
+                               $('#t tbody#search').append(" <td>"+obj.title+"</td>"); 
+							    $('#t tbody#search').append(" <td>"+obj.description+"</td>"); 
+ 								$('#t tbody#search').append(" <td>"+obj.rating+"</td>"); 
+								 $('#t tbody#search').append(" <td>"+obj.rating+"</td>"); 
+								 $('#t tbody#search').append(" <td>"+obj.views+"</td>"); 
+								 var p="/uploads/"+obj.image;
+                                var img = "<img src="+p+" width='100' height='100'/>";
+                                $('#t tbody#search').append(" <td>"+img+"</td>");
+
+								 $('#t tbody#search').append(" <td>"+obj.idcategorie.namecateg+"</td>"); 
+
+                               
+                             //   $('#t tbody#search').append("<td> <button class='btn btn-outline-primary' type='submit' onclick='window.location.href =" +obj.idjeux+"'; role='button'> Show </button>");
+                                //$('#t tbody#search').append(" <button class='btn btn-outline-primary' type='submit' onclick='window.location.href =" +obj.idjeux+"'; role='button'> Edit </button></td>");
+
+
+
+                                $('#t tbody#search').append("</tr>");
+                                // <td>'+obj.description+'</td><td>'+obj.dateajout+'  </td><td></td><td><a href="article/'+obj.id+'">show</a> </br><a href="article/'+obj.id+'/edit">edit</a></td></tr>');
+                            });
+                        }
+                        //$('#t tbody#search').append('<tr><td> '+obj.lieu+'  </td><td>    '+obj.nbPlace+'  </td><td>'+obj.descriptions+' </td><td>'+obj.dateEvent+' </td><td>'+obj.getcategory+' </td><td>'+obj.Description+'</td><td><td><a href="event/'+obj.idEvent+'/edit">Modifier</a></td></tr>');
+                        else
+                        {
+
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+
+
+
+
+
+        });
+    </script>
+
+
+
+
+
+
+
+{% endblock %}
