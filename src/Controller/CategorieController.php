@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use App\Repository\CategorieRepository;
 
 /**
  * @Route("/categorie")
@@ -92,5 +94,26 @@ class CategorieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/s/searchCateg", name="searchCategorie")
+     */
+    public function searchCategorie(Request $request,NormalizerInterface $Normalizer,CategorieRepository $repository):Response
+    {
+        $requestString=$request->get('searchValue');
+        $Categorie = $repository->findByNom($requestString);
+        $jsonContent = $Normalizer->normalize($Categorie, 'json',['Groups'=>'Categorie:read']);
+        $retour =json_encode($jsonContent);
+        return new Response($retour);
+
     }
 }
