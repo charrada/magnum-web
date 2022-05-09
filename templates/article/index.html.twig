@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArticleController!{% endblock %}
+
+{% block body %}
+<section class="login-area section-padding-100">
+
+<h1>Gestion des articles </h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>url</th>
+            <th>content</th>
+            <th>Titre</th>
+
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for reco in recos %}
+        <tr>
+            <td>{{ reco.getId }}</td>
+            <td>{{ reco.getUrl }}</td>
+            <td>{{ reco.getContent }}</td>
+            <td>{{ reco.getTitle }}</td>
+
+            <td>
+                <a  class="btn btn-success btn-circle btn-lg" href="{{ path('reco_edit', {'id': reco.getId()}) }}"><i class="fas fa-edit"></i></a>
+                {{ include('article/_delete_form.html.twig') }}
+            </td>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-primary btn-icon-split" href="{{ path('reco_new') }}">
+
+<span class="icon text-white-50">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+    <span class="text">Ajouter un article</span>
+</a>
+<a href="{{ path('pdf1') }}" class="btn btn-light">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+    </svg>
+    Expoter
+</a>
+</section>
+{% endblock %}

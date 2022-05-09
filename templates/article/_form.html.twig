@@ -1,0 +1,35 @@
+{{ form_start(form) }}
+<section class="login-area section-padding-100">
+
+<div>
+    <div class="form-group">
+        {{ form_label(form.title, "title ") }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.title, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.url, "url ") }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.url, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.content, "content ") }}
+
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.content, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    
+
+    <div>
+        <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+    </div>
+</div>
+<section/>
+{{ form_end(form) }}

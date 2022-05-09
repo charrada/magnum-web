@@ -94,4 +94,6 @@ class Podcasters extends Users
         $this->biography = biography;
         return $this;
     }
+
 }
+

@@ -1,0 +1,46 @@
+
+{% block body %}
+    <h2 class="page-header">
+
+        <center>   <img style="position: center" src="http://localhost/magnum-web/public/img/podcasters/waveform.jpg" alt="" width="200"></center>
+
+        <small class="pull-right"></small>
+    </h2>
+    <h1 align="center">Liste des Articles</h1><hr>
+
+    <table>
+        <thead>
+        <tr>
+            <th class="wd-15p">Titre</th>
+
+            <th class="wd-15p">Url</th>
+            <th class="wd-15p">Content </th>
+            <th class="wd-15p">id</th>
+
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+
+        {% for a in articles %}
+
+            <tr >
+
+
+                <td>{{a.getTitle}}</td>
+                <td>{{a.getUrl}}</td>
+                <td>{{a.getContent}}</td>
+                <td>{{a.getId}}</td>
+            
+
+            </tr >
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    </div>
+
+{% endblock %}

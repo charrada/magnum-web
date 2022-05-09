@@ -30,6 +30,7 @@
         "symfony/framework-bundle": "4.4.*",
         "symfony/google-mailer": "4.4.*",
         "symfony/http-client": "4.4.*",
+        "symfony/http-kernel": "4.4.*",
         "symfony/intl": "4.4.*",
         "symfony/mailer": "4.4.*",
         "symfony/monolog-bundle": "^3.1",

@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 class UsersRepository
     extends ServiceEntityRepository
     implements UserLoaderInterface
+
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -52,5 +53,6 @@ class UsersRepository
                              ->setParameter('query', $usernameOrEmail)
                              ->getOneOrNullResult();
     }
+
 
 }
