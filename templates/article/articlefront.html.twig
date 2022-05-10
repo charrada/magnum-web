@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<section class="login-area section-padding-100">
+
+    <section class="ftco-section bg-light">
+        <div class="container">
+            <div class="row justify-content-center mb-5 pb-5">
+                <div class="col-md-10 heading-section text-center ftco-animate">
+                    <h2 class="mb-4">Liste des articles</h2>
+                    <p>Voici les articles pour magnum</p>
+                </div>
+            </div>
+            <div class="row d-flex">
+                {% for reco in recos %}
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <p>Content:{{ reco.getContent }}</p>
+                        
+                        <p>Titre:{{ reco.title }}</p>
+                        <div>
+                              <a href="{{asset('uploads/' ~ reco.url)}}"
+                   class="btn btn-success">PDF</a>
+                            <p><a href="{{ path('reco_single', {'id': reco.getId()}) }}">Read more</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+        </div>
+
+
+            </div>
+
+
+        </div>
+    </section>
+    <div>
+        {{ knp_pagination_render(recos) }}
+    </div>
+
+    <section/>
+{% endblock %}

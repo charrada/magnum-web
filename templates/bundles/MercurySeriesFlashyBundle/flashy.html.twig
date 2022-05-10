@@ -1,0 +1,18 @@
+{% for message in app.flashes('mercuryseries_flashy_notification') %}
+    <script id="flashy-template" type="text/template">
+        <div class="flashy flashy--{{ message.type }}">
+            <i class="material-icons">speaker_notes</i>
+            <a class="flashy__body" href={{ path('app_podcasts_index') }} target="_blank"></a>
+        </div>
+    </script>
+
+    <script>
+            flashy("vous avez  réservations confirmés dont  aujourd'hui ", "{{ message.link }}");
+
+        {# {% if confaujf > 0 %}
+        flashy("vous avez " + {{ conff }} + " réservations confirmés dont " + {{ confaujf }} + " aujourd'hui ", "{{ message.link }}");
+        {% else  %}
+        flashy("vous avez " + {{ conff }} + " réservations confirmés ", "{{ message.link }}");
+        {% endif %} #}
+    </script>
+{% endfor %}

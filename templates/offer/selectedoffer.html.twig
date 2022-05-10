@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{{ include('_navbar.html.twig') }}
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
+        <div class="bradcumbContent">
+            <p>Offer Manager dashboard</p>
+        </div>
+    </section>
+
+    <!-- ##### offer infos ##### -->
+
+     <div class="blog-area section-padding-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-9">
+
+                    <!-- Single Post Start -->
+                    <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Post Thumb -->
+                        <div class="blog-post-thumb mt-30">
+                            <a href="#"> <img src="img/ofs-img/{{offers.image}}" alt=""></a>
+                            <!-- Post Date -->
+                            <div class="post-date">
+                                <span>${{offers.price}}</span>    
+                                <span>Per month</span>                          
+                            </div>
+                        </div>
+
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+                            <!-- Post Meta -->
+                            <div class="post-meta d-flex mb-30">
+                                <p class="post-author">By<a href="#"> Admin</a></p>
+                            </div>
+                            <!-- Post Excerpt -->
+                            <p>{{offers.description}}</p>
+                        </div>
+                         <a href="{{path("chooseplan", {'id': offers.id})}}" class="btn btn-success">Subscribe now</a>                     
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+

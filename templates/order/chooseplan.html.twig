@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+{{ include('_navbar.html.twig') }}
+  <link rel="stylesheet" href="{{ asset('scss/slider.scss')}}">
+        
+  
+
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
+        <div class="bradcumbContent">
+            <p>Choose your plan</p>
+        </div>
+    </section>
+
+{% set user = 5 %}
+{% set status = "On hold"%}
+
+
+
+    <!-- ##### offer infos ##### -->
+     <div class="blog-area section-padding-100">
+<div class="containerOrder">
+
+  <div class="slider">
+    <span id ="plan" name = "plan" class="rs-label"></span>
+    <input type="range" min="1" max="12" value="1" id="slider" class="rs-range" >
+  </div>
+    
+  
+  <div class="box-minmax">
+    <span>1</span><span>12</span>
+  </div>
+    <div class="right">
+      <span class="price">$<span id="price">{{offers.price}}</span></span> / <span id="period">month</span>
+    </div>
+    <div>
+ <form id='buttonWithText' onSubmit={this.onSubmit}>
+  <div id='switcher' class='collapsed'>
+    <input type='button' id='toggle' value='Redeem coupn'>
+    <input type='text' id='input' tabindex='-1' placeholder='Paste here' size=10>
+     
+  </div>
+</form>
+
+<span id ="CouponMsgSuccess" class ="CouponMsgs"></span>
+<span id ="CouponMsgError" class ="CouponMsge"></span>
+
+</div>
+    <div class="center">
+      <span>Total : $</span><span id ="total" name ="total"></span>
+    </div>
+    <div class="bottom">
+       <input type="submit" id = "submit" name ="submit" value="Confirm" onclick="sendData()" class="btn btn-success">
+ </div>
+  </div>
+
+
+ 
+  
+    </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
+function sendData(){
+  var plan = document.getElementById("plan").innerText;
+  var total = document.getElementById("total").innerText;
+  var coupon = document.getElementById("input").value;
+
+  $.ajax({
+     url:"{{path("placeorder", {'id': offers.id})}}",
+     type: 'POST',
+     data:{"plan":plan ,"total":total,"code":coupon},
+     success: function(rep){
+            // data.redirect contains the string URL to redirect to
+        window.location.href = '/checkout/'+rep;
+
+     },error: function(jqXHR, textStatus, errorthrown){
+
+     }
+  });
+
+
+}
+
+</script>
+  <script src="{{ asset('js/jquery.js') }}"></script>
+     <script>
+     $("#input").keyup(
+            function(){
+                var DATA = document.getElementById("input").value;
+                var total = document.getElementById("total").innerText;
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('redeem')}}",
+                    data:{"code":DATA},
+                    success: function (reduction) {
+                       
+                        if(reduction != 0 && reduction != "used"){    
+                        var newTotal = total - (total*(reduction*0.01));                    
+                        document.getElementById('total').innerText=newTotal;
+                        document.getElementById("input").disabled = true;
+                        document.getElementById("toggle").value = "Redeemed";
+                        document.getElementById("toggle").disabled = true; 
+                        document.getElementById("CouponMsgSuccess").innerHTML = "You've just redeemed your "+reduction+" % discount !";  
+                        document.getElementById("CouponMsgError").innerHTML = "";  
+
+                        }
+                        else if(reduction == "used"){
+                          document.getElementById('total').innerText=total;
+                          document.getElementById("CouponMsgError").innerHTML = "Coupon code already used !";
+                          document.getElementById("CouponMsgSuccess").innerHTML = "";
+
+                        }
+                        else {
+                          document.getElementById('total').innerText=total;
+                          document.getElementById("CouponMsgError").innerHTML = "Invalid coupon code !";
+                          document.getElementById("CouponMsgSuccess").innerHTML = "";
+
+                        }
+                    }
+                });
+            });
+</script>
+
+
+
+<script src="{{ asset('js/slider.js')}}"></script>
+
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+{% apply inline_css %}
+<style>
+   .announcement {
+	--base-font: inherit;
+	--small-font: 0.75rem;
+	--normal-font: 1rem;
+	--medium-font: 1.25rem;
+	--primary-color: #FA003F;
+	--secondary-color: #fff;
+	--base-padding: 0.5rem;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--primary-color);
+	font-family: var(--base-font-dev), sans-serif;
+	padding: var(--base-padding);
+}
+
+@media (max-width: 768px) {
+	.announcement {
+		flex-direction: column-reverse;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		z-index: 4;
+	}
+}
+
+
+
+.announcement .text {
+	padding: 0 1rem;
+	color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+	.announcement .text {
+		padding-bottom: var(--base-padding);
+	}
+}
+
+.announcement input,
+.announcement button {
+	font-family: var(--base-font);
+	font-size: var(--small-font);
+	letter-spacing: 1px;
+    cursor: pointer;
+	text-transform: uppercase;
+	padding: var(--base-padding);
+	border: 2px dashed var(--secondary-color);
+	/* height: 36px; */
+}
+
+.announcement input {
+	background: var(--primary-color);
+	color: var(--secondary-color);
+	text-align: center;
+	border-right: 0;
+	font-size: 16px;
+}
+
+.announcement .coupon {
+	display: flex;
+	align-items: center;
+}
+
+@media (max-width: 768px) {
+	.announcement .coupon {
+		margin: 1rem auto;
+	}
+}
+
+/* Style the close button (span) */
+.announcement .close {
+	cursor: pointer;
+	position: absolute;
+	top: -3rem;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 0;
+	background: var(--primary-color);
+	color: var(--secondary-color);
+	height: 35px;
+	width: 35px;
+	line-height: 35px;
+	text-align: center;
+	border-radius: 50%;
+}
+
+@media (min-width: 769px) {
+	.announcement .close {
+		top: 50%;
+		transform: translateY(-50%);
+		border-radius: 50%;
+		left: inherit;
+		right: 0.5rem;
+	}
+}
+
+.announcement .close:hover {
+	background: var(--secondary-color);
+	color: var(--primary-color);
+}
+
+.announcement .tooltip {
+	position: relative;
+	display: inline-block;
+	color: var(--secondary-color);
+	opacity: 1;
+	line-height: inherit;
+	font-size: inherit;
+	z-index: inherit;
+}
+
+.announcement .tooltip .tooltiptext {
+	visibility: hidden;
+	position: absolute;
+	bottom: 130%;
+	left: 50%;
+	background-color: #555;
+	color: #fff;
+	width: 170px;
+	font-size: smaller;
+	/* font-weight: bold; */
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px;
+	margin-left: -75px;
+	opacity: 0;
+	transition: opacity 0.3s;
+	z-index: 1;
+}
+
+.announcement .tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+	bottom: -100%;
+}
+
+.announcement .tooltip .tooltiptext::after {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+	top: -35%;
+	transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+	.announcement .tooltip:hover .tooltiptext {
+		bottom: 150%;
+	}
+
+	.announcement .tooltip .tooltiptext::after {
+		top: 100%;
+		transform: rotate(0deg);
+	}
+}
+    </style>
+    <body>
+<div class="announcement">
+	<span class="close"></span>
+	<div class="text">
+		<span class="is-desktop">
+			<strong>Great news</strong>. you've just recieved a free coupon.
+		</span>
+		<span class="is-mobile">Use Coupon Code for <strong>{{coupon.reduction}}% reduction on your next purchase</strong></span>
+	</div>
+	<div class="coupon">
+		<input type="text" value="{{coupon.code}}" id="couponCode" readonly />
+		<div class="tooltip">
+			<button onclick="myFunction()" onmouseout="outFunc()">
+				<span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+				Copy
+			</button>
+		</div>
+	</div>
+	<span id="timer" class="is-desktop"></span>
+</div>
+</body>
+</html>
+<script src="{{ absolute_url(asset('js/coupon.js')) }}"></script>
+{% endapply %}

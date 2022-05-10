@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+	{% for label, messages in app.flashes(['danger', 'success']) %}
+	  {% for message in messages %}
+	    <div class="alert alert-{{ label }}">
+	      {{ message }}
+	    </div>
+	  {% endfor %}
+	{% endfor %}
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+	<h3>Reset your password</h3>
+	{{ form_start(form) }}
+	{{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+
+ {% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<!-- Page Features -->
+
+
+{% for message in app.flashes("warning") %}
+		<div class="alert alert-success">
+		{{ message }}
+		</div>
+{% endfor %}
+
+<div class="row text-center blog-section spad mx-auto">
+
+
+{% for podcast in podcasts %}
+
+        <div class="col-lg-3 col-md-6 mb-4 mt-5">
+            <div class="card h-100 bg-white text-black border-danger mt-5">
+                <img class="card-img-top" src="{{ asset('uploads/' ~ podcast.image) }}" alt="">
+				
+                <div class="card-body">
+
+                    <h4 class="card-title font-weight-bold mb-2">
+                        {{ podcast.title }}
+                    </h4>
+                    <ul class="list-group list-group-flush">
+                        <p class="list-group-item text-danger">rating: {{ podcast.rating }}</p>
+                        <p class="list-group-item">Views:{{ podcast.views }} </p>
+                  <p class="card-text ">{{ podcast.description }}</p>  
+                  	<audio preload="auto" controls><source src="{{ asset('uploads/' ~ podcast.file) }}"></audio>
+						{{ podcast.file }}</td>
+                       <img src="{{ qrCode }}" alt="qr-code">
+                                 <td width="30">
+                                  <p style="margin:0; font-size:1px; line-height:1px;">&nbsp;</p>
+                                    </td>
+                    </ul>
+                </div>
+                <div class="card-footer">
+
+			
+			   
+			    </div>
+            </div>
+        </div>
+
+	
+ {% endfor %}
+
+</div>
+
+{% endblock %}
+

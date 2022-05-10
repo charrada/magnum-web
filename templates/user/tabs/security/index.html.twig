@@ -1,0 +1,45 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{app.user.username}}'s security details {% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Security credentials</h1>
+    <p>You can reset your security credentials here.</p>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+	{% for label, messages in app.flashes(['danger', 'success']) %}
+	  {% for message in messages %}
+	    <div class="alert alert-{{ label }}">
+	      {{ message }}
+	    </div>
+	  {% endfor %}
+	{% endfor %}
+      </div>
+    </div>
+
+    {{ form_start(form) }}
+      <div class="form-group">
+	{{ form_label(form.password) }}
+	<div class="row">
+	  {{ form_widget(form.password) }}
+	</div>
+      </div>
+
+      <div class="row">
+	{{ form_label(form.newPassword.first) }}
+	<div class="col">
+	  {{ form_widget(form.newPassword.first) }}
+	</div>
+
+	{{ form_label(form.newPassword.second) }}
+	<div class="col">
+	  {{ form_widget(form.newPassword.second) }}
+	</div>
+      </div>
+
+      {{ form_widget(form.confirm) }}
+  </div>
+    {{ form_end(form) }}
+  </div>
+{% endblock %}

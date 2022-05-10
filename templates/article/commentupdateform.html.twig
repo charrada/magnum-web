@@ -1,0 +1,13 @@
+
+{{ form_start(form) }}
+<section class="login-area section-padding-100">
+
+{{ form_widget(form.message,{'attr':{'placeholder':'Leave Comment','class':'form-control','rows':'5'}}) }}
+<button  class="btn btn-primary btn-block">{{ button_label|default('Post') }}</button>
+<a href="{{ path('reco_single',{'id': reco.id}) }}"></a>
+{{ form_widget(form) }}
+</section>
+{{ form_end(form) }}
+
+
+
