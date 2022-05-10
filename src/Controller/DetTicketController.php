@@ -37,7 +37,6 @@ class DetTicketController extends AbstractController
         
         $t->setstatus('Pending');
         $t->setresolverid('');
-        $t->setevaluate(1);
         $t->setid(random_int(100, 999));
         $form=$this->createForm(DetTicketType::class,$t);
         $t1->setid($t->getid());

@@ -2,15 +2,26 @@
 
 namespace App\Form;
 
+use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ResolverType extends AbstractType
+class ConsulterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+       /* ->add('id', EntityType::class,['class'=>Ticket::class,
+        'placeholder'=>'Choisir',
+        'choice_label' => function($choix){
+            return $choix->getid();
+
+        }
+        ])*/
+        
         ;
     }
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ChatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ChatRepository::class)
@@ -12,104 +13,110 @@ class Chat
 {
   
     /**
-     * @ORM\Id
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
-    private $ID;
+    private $id;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255)
      */
     private $resolverid;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255)
      */
     private $msg;
 
     /**
+     * @ORM\Id
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255)
      */
     private $datem;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="integer")
      */
     private $userid;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $ifrom;
 
-    public function getId(): ?int
+    public function getid(): ?int
     {
         return $this->id;
     }
 
-    public function setID(int $ID): self
+    public function setid(int $id): self
     {
-        $this->ID = $ID;
+        $this->id = $id;
 
         return $this;
     }
 
-    public function getReSolverID(): ?string
+    public function getresolverid(): ?string
     {
-        return $this->ReSolverID;
+        return $this->resolverid;
     }
 
-    public function setReSolverID(string $ReSolverID): self
+    public function setReSolverID(string $resolverid): self
     {
-        $this->ReSolverID = $ReSolverID;
+        $this->resolverid = $resolverid;
 
         return $this;
     }
 
-    public function getMsg(): ?string
+    public function getmsg(): ?string
     {
-        return $this->Msg;
+        return $this->msg;
     }
 
-    public function setMsg(string $Msg): self
+    public function setmsg(string $msg): self
     {
-        $this->Msg = $Msg;
+        $this->msg = $msg;
 
         return $this;
     }
 
-    public function getDateM(): ?string
+    public function getdatem(): ?string
     {
-        return $this->DateM;
+        return $this->datem;
     }
 
-    public function setDateM(string $DateM): self
+    public function setdatem(string $datem): self
     {
-        $this->DateM = $DateM;
+        $this->datem = $datem;
 
         return $this;
     }
 
-    public function getUSERID(): ?int
+    public function getuserid(): ?int
     {
-        return $this->USERID;
+        return $this->userid;
     }
 
-    public function setUSERID(int $USERID): self
+    public function setuserid(int $userid): self
     {
-        $this->USERID = $USERID;
+        $this->userid = $userid;
 
         return $this;
     }
 
-    public function getIfrom(): ?string
+    public function getifrom(): ?string
     {
-        return $this->Ifrom;
+        return $this->ifrom;
     }
 
-    public function setIfrom(string $Ifrom): self
+    public function setifrom(string $ifrom): self
     {
-        $this->Ifrom = $Ifrom;
+        $this->ifrom = $ifrom;
 
         return $this;
     }

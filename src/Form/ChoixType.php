@@ -25,13 +25,13 @@ class ChoixType extends AbstractType
         
         //->add('type')
         ->add('type', EntityType::class,['class'=>TicketType::class,
-        'placeholder'=>'Choisir',
+        'placeholder'=>'SELECT TYPE OF TICKET',
         'choice_label' => function($choix){
             return $choix->getitype() . ' - ' . $choix->gettype();
 
         }
         ])
-        ->add('Ajouter',SubmitType::class)
+        ->add('SEND',SubmitType::class)
        
 
             

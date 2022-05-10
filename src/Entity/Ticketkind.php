@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TicketkindRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TicketkindRepository::class)
@@ -12,17 +13,20 @@ class Ticketkind
 {
 
     /**
+     * @Groups("post:read")
      * @ORM\Id
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="integer")
      */
     private $itype;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255)
      */
     private $type;

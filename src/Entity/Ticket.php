@@ -6,6 +6,8 @@ use App\Repository\TicketRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\date;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 use symfony\Component\Validator\Constraints as Assert ;
 /**
  * @ORM\Entity(repositoryClass=TicketRepository::class)
@@ -14,45 +16,50 @@ class Ticket
 {
     /**
      * @ORM\Id
+     * @Groups("post:read")
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
+     * @ORM\Column(type="string", length=255)
      */
     private $subject;
-/*fdfdfdfd */
+
     /**
-     * @Assert\NotBlank(message="Remplire")
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
+     * @Groups("post:read")
      *@var \DateTime
-     * @Assert\NotBlank(message="Remplire")
-     * @ORM\Column(type="datetime", options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $creationdate;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $resolverid;
 
     /**
-     * @Assert\NotBlank(message="Remplire")
+     * @Groups("post:read")
      * @ORM\Column(type="integer")
      */
     private $userid;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255)
      */
     private $status;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $evaluate;
@@ -146,9 +153,9 @@ class Ticket
         return $this->evaluate;
     }
 
-    public function setevaluate(?int $Evaluate): self
+    public function setevaluate(?int $evaluate): self
     {
-        $this->Evaluate = $Evaluate;
+        $this->evaluate = $evaluate;
 
         return $this;
     }

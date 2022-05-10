@@ -1,0 +1,58 @@
+
+
+{% block body %}
+
+<body>
+<center><h1>Ticket list</h1>
+						
+						<table >
+							<tr>
+								<th>ID Ticket</th>
+								<th>Subject</th>
+								
+								<th>STATUS</th>
+							
+								<th>userid</th>
+								
+							
+							</tr>
+							<tr>
+								<h2>
+									{%for Ticket in t %}
+									
+										<tr>
+										
+											<td>
+												{{Ticket.id}}
+												
+											</td>
+											<td>
+												{{Ticket.subject}}
+											</td>
+											
+											
+											<td>
+												{{Ticket.status}}
+											</td>
+											
+											<td>{{Ticket.userid}}</td>
+																		
+										</tr>
+
+									{% endfor %}
+								</tr>
+							</tr>
+						</table></center>
+			
+              
+	</body>
+
+
+
+{% endblock %}
+
+	
+    
+    
+
+

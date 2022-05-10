@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TickettypeRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=TickettypeRepository::class)
  */
@@ -13,12 +13,14 @@ class Tickettype
 
     /**
      * @ORM\Id
+     * @Groups("post:read")
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $itype;
 
     /**
+     * @Groups("post:read")
      * @ORM\Column(type="string", length=255,nullable=false)
      */
     private $type;
