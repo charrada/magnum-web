@@ -192,6 +192,97 @@ class OrderController extends AbstractController
 
 
     }
+    /**
+     *@Route("/placeordermobile",name="placeordermobile")
+     */
+    public function placeOrderForMobile(Request $request,MailerInterface $mailer){
+
+        $id = $request->get("id");
+        $repository=$this->getDoctrine()->getRepository(Offer::class);
+        $offers=$repository->find($id);
+
+        $curr_user = $this->security->getUser();  
+        $repositoryuser=$this->getDoctrine()->getRepository(Users::class);
+        $iduser =1;
+        $users=$repositoryuser->find($iduser);
+
+        $order = new Order();      
+        $date = date('Y-m-d H:i:s:v');
+        $order->setOrderdate($date);
+        $order->setStatus("Pending");
+        $order->setUser($users);
+        $order->setOffer($offers);
+        $plan =$request->get('plan');
+        $total =$request->get('total');
+        $order->setPlan($plan);
+        $order->setTotal($total);
+
+          try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($order);
+            $em ->flush();
+
+            $repository=$this->getDoctrine()->getRepository(Order::class);
+            $lastOrder=$repository->find($order->getId());
+
+           $subscription = new Subscription();
+           $subscription->setOrder($lastOrder);
+           $subscription->setUserId($curr_user->getID());
+           
+           $subcreated = new \DateTime('NOW');
+           $subscription->setStartDate(new \DateTime('NOW'));
+           $day = $subcreated->format('j');
+           $subcreated->modify('first day of'.$plan*+1 . 'month');
+           $subcreated->modify('+' . (min($day, $subcreated->format('t')) - 1) . ' days');;
+          
+           
+           $subscription->setExpireDate($subcreated);
+           $subscription->setStatus("On Hold");
+       
+          $em->persist($subscription);  
+          $em ->flush();
+
+            return new JsonResponse("Order created!", 200);
+        }
+        catch (\Exception $ex)
+        {
+            return new Response("Execption: ".$ex->getMessage());
+        }
+     
+          
+         
+       /* $repository=$this->getDoctrine()->getRepository(Coupon::class);
+        $inputCoupon =$request->request->get('code');
+        try
+         {
+        if ($inputCoupon != ""){
+        $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($taggedCoupon->setUsed("true"));
+        $em ->flush();}
+        } catch (\Throwable $t) {
+            return new JsonResponse($order->getId());
+        }
+
+
+        $email = (new TemplatedEmail())
+        ->from('devel.magnum@gmail.com')
+        ->to($curr_user->getEmail())
+        ->subject('About your order !')
+        ->htmlTemplate('email/order.html.twig')
+        ->context([
+          'order' => $order
+        ]);
+
+          $mailer->send($email);
+
+
+     
+         return new JsonResponse($order->getId());
+   //  return $this->render('payment/index.html.twig',["order"=>$order]);*/
+      
+        
+    }
 
 
 }

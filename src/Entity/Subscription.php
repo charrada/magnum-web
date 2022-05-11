@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,6 +19,7 @@ class Subscription
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -26,6 +27,7 @@ class Subscription
      * @var int
      *
      * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $userId;
 
@@ -33,6 +35,7 @@ class Subscription
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $startDate;
 
@@ -40,6 +43,7 @@ class Subscription
      * @var \DateTime
      *
      * @ORM\Column(name="expire_date", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $expireDate;
 
@@ -47,6 +51,7 @@ class Subscription
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=0, nullable=false)
+     * @Groups("post:read")
      */
     private $status;
 
