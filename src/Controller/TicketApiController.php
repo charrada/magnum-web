@@ -80,13 +80,17 @@ class TicketApiController extends AbstractController
      */
     public function AfficherTicketMobile(Request $request)
     {
-        $id = $request->get("id");
+        $userid= $request->get("userid");
         $em = $this->getDoctrine()->getManager();
-        $Ticket = $em->getRepository(Ticket::class)->findBy(["id" => $em->getRepository(Ticket::class)->find($id)]);
+
+       $Ticket=$this->getDoctrine()->getManager()->getRepository(Ticket::class)->findBy(['userid'=>$userid]);
+
+
+       // $Ticket = $em->getRepository(Ticket::class)->findBy(["userid" => $em->getRepository(Ticket::class)->find($id)]);
 
         return $this->json($Ticket,200,[],['groups'=>'post:read']);
 
-        //http://127.0.0.1:8000/AfficherTicketMobile?id=978
+        //http://127.0.0.1:8000/AfficherTicketMobile?userid=978
 
     }
 

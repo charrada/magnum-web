@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseArticle.html.twig' %}
 
 {% block title %}Hello ArticleController!{% endblock %}
 
@@ -6,7 +6,10 @@
 <section class="login-area section-padding-100">
 
 <h1>Gestion des articles </h1>
-
+<div>
+<p style="100px" > <input  id="myInput"  type="text" placeholder="search">
+ <img src="https://img.icons8.com/nolan/344/google-web-search.png" style="width:50px;height:50px;"/></p>
+ </div>
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -54,4 +57,16 @@
     Expoter
 </a>
 </section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 {% endblock %}

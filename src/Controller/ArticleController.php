@@ -194,10 +194,10 @@ class ArticleController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-   /**
-           * @Route("/frontarticle", name="front")
 
-     */
+    /**
+    * @Route("/frontarticle", name="front")
+    */
 
     public function front(PaginatorInterface $paginator,Request $request):Response
     {
@@ -256,7 +256,7 @@ class ArticleController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $val = $entityManager->getRepository(Article::class)->find($id);
-            $userr = $entityManager->getRepository(Users::class)->find(8);
+            $userr = $entityManager->getRepository(Users::class)->find(2);
 
             $comment->setSubmitDate(new \DateTime())
                 ->setArticleid($val)
